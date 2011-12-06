@@ -1,13 +1,21 @@
-*.o
-*.obj
-*.res
-bin/main.c
-shoes/version.h
-deps
-dist
-pkg
-*.app
-req/*
+## MAC OS
+.DS_Store
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
 *~
+\#*
+.\#*
+
+## VIM
 *.swp
-tags
+
+## PROJECT::GENERAL
+coverage
+rdoc
+pkg
+
+## PROJECT::SPECIFIC
