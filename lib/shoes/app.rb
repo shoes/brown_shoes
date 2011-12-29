@@ -8,8 +8,6 @@ module Shoes
 
     def initialize(opts={}, &blk)
       @elements = {}
-      #@frame = javax.swing.JFrame.new()
-
 
       $main_display = SwtDisplay.getDefault
 
@@ -26,15 +24,15 @@ module Shoes
 
       $main_display.dispose unless $main_display.isDisposed
 
-      logger.debug "$main_display disposed... exiting Shoes::App.new"
+      #logger.debug "$main_display disposed... exiting Shoes::App.new"
     end
 
     private
     def main_window_on_close
       lambda {
-        logger.debug "main_window on_close block begin... disposing $main_display"
+        #logger.debug "main_window on_close block begin... disposing $main_display"
         $main_display.dispose
-        logger.debug "$main_display disposed"
+        #logger.debug "$main_display disposed"
       }
     end
   end
