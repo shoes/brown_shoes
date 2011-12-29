@@ -508,11 +508,11 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "brown_shoes"
+    gem.name = "shoes"
     gem.summary = %Q{JRuby implementation of shoes}
     gem.description = %Q{JRuby implementation of shoes}
     gem.email = "stwerner@vt.edu"
-    gem.homepage = "http://github.com/scottw/brown_shoes"
+    gem.homepage = "http://github.com/scottw/shoes"
     gem.authors = ["Scott Werner"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.files.include('lib/**/*.rb')
@@ -544,7 +544,7 @@ Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "brown_shoes #{version}"
+  rdoc.title = "shoes #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end

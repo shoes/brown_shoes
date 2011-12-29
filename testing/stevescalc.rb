@@ -1,5 +1,5 @@
 
-require '../lib/brown_shoes'
+require '../lib/shoes'
 
 class Calc
   def initialize

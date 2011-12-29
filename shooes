@@ -1,0 +1,10 @@
+#!/usr/bin/env jruby -J-XstartOnFirstThread
+require 'rubygems'
+
+$:<< "lib"
+
+require 'shoes'
+
+require ARGV[0]
+
+exit 0

@@ -1,4 +1,4 @@
-require '../lib/brown_shoes'
+require '../lib/shoes'
 java_import 'org.jruby.embed.ScriptingContainer'
 java_import 'org.jruby.embed.LocalVariableBehavior'
 java_import 'org.jruby.embed.LocalContextScope'

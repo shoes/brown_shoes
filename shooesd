@@ -1,0 +1,15 @@
+#!/usr/bin/env jruby  -J-XstartOnFirstThread --debug
+require 'rubygems'
+require 'ruby-debug'
+
+$:<< "lib"
+
+ENV['log_level'] = 'debug'
+
+require 'shoes'
+
+require ARGV[0]
+
+puts "Exiting ./shooesd.  Have a good day!"
+
+exit 0

@@ -7,7 +7,7 @@
 # * hpricot/tag.rb: sets up objects for the various types of elements in an HTML document.
 # * hpricot/modules.rb: categorizes the various elements using mixins.
 # * hpricot/traverse.rb: methods for searching documents.
-# * hpricot/elements.rb: methods for dealing with a group of elements as an Hpricot::Elements list.
+# * hpricot/element.rb: methods for dealing with a group of elements as an Hpricot::Elements list.
 # * hpricot/inspect.rb: methods for displaying documents in a readable form.
 
 # If available, Nikolai's UTF-8 library will ease use of utf-8 documents.

@@ -1,4 +1,4 @@
-require '../lib/brown_shoes'
+require '../lib/shoes'
 
 Shoes.app do
   image 'images/shoe.jpg'
