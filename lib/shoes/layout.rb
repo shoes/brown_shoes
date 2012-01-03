@@ -1,5 +1,17 @@
 module Shoes
-  module Elements
+  class Layout
+    include SwtConstants
+    include Log4jruby::LoggerForClass
+
+    #def stack(opts={}, &blk)
+    #  tstack = Stack.new(opts)
+    #  layout(tstack, &blk)
+    #end
+
+    def flow(opts = {}, &blk)
+      swt_flow = Shoes::Flow.new @composite, opts, &blk
+    end
+
 
     def button(text, opts={}, &blk)
       button = Shoes::Button.new(@composite, text, opts, &blk)
@@ -32,14 +44,14 @@ module Shoes
     #  cbox
     #end
     #
-
-    def layout(layer, &blk)
-      parent = @current_panel
-      @current_panel = layer.panel
-      instance_eval &blk
-      parent.add(@current_panel)
-      @current_panel = parent
-    end
+    #
+    #def layout(layer, &blk)
+    #  parent = @current_panel
+    #  @current_panel = layer.panel
+    #  instance_eval &blk
+    #  parent.add(@current_panel)
+    #  @current_panel = parent
+    #end
 
 
   end

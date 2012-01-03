@@ -1,4 +1,8 @@
 module Shoes
+
+  # Shoes::App.new creates a new Shoes application window!
+  # The default window is a [flow]
+  # 
   class App
     include SwtConstants
     include Log4jruby::LoggerForClass
@@ -6,10 +10,11 @@ module Shoes
     attr_accessor :elements, :frame
     attr_accessor :main_shell
 
+
     def initialize(opts={}, &blk)
       @elements = {}
 
-      $main_display = SwtDisplay.getDefault
+      $main_display = SWT::Widgets::Display.getDefault
 
       window_opts = opts.merge(:on_close => main_window_on_close, :elements => @elements)
       @main_window = Window.new(window_opts) do

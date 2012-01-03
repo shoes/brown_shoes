@@ -1,5 +1,5 @@
 module Shoes
-  class Edit_box < Element
+  class Edit_box < Native
     java_import 'javax.swing.JTextArea'
     java_import 'javax.swing.JScrollPane'
     

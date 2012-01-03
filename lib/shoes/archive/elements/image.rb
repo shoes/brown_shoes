@@ -1,5 +1,5 @@
 module Shoes
-  class Image < Element
+  class Image < Native
     attr_accessor :image
     
     def initialize(path, parent, opts={})

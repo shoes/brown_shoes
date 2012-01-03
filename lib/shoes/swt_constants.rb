@@ -1,11 +1,16 @@
 module SwtConstants
-  Swt = org.eclipse.swt.SWT
-  SwtShell = org.eclipse.swt.widgets.Shell
-  SwtDisplay = org.eclipse.swt.widgets.Display
+  SWT = org.eclipse.swt.SWT
 
-  SwtComposite = org.eclipse.swt.widgets.Composite
-  SwtFillLayout = org.eclipse.swt.layout.FillLayout
+  module SWT::Layouts
+    Composite = org.eclipse.swt.widgets.Composite
+    FillLayout = org.eclipse.swt.layout.FillLayout
+    RowLayout = org.eclipse.swt.layout.RowLayout
+  end
 
-  SwtButton = org.eclipse.swt.widgets.Button
+  module SWT::Widgets
+    Shell = org.eclipse.swt.widgets.Shell
+    Display = org.eclipse.swt.widgets.Display
+    Button = org.eclipse.swt.widgets.Button
+  end
 
 end

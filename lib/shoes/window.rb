@@ -1,7 +1,7 @@
-require 'shoes/composite'
+require 'shoes/layout'
 
 module Shoes
-  class Window < Composite
+  class Window < Layout
 
     DEFAULT_WIDTH = 800
     DEFAULT_HEIGHT = 600
@@ -12,7 +12,7 @@ module Shoes
       opts.stringify_keys!
       @elements = opts['elements']
 
-      @composite = SwtShell.new($display, Swt::CLOSE)
+      @composite = SWT::Widgets::Shell.new($display, SWT::CLOSE)
 
       width, height = opts['width'] || DEFAULT_WIDTH, opts['height'] || DEFAULT_HEIGHT
 
@@ -21,11 +21,11 @@ module Shoes
 
       if opts['on_close']
         logger.debug "Shell #{@composite.inspect} adding block #{blk.inspect}"
-        @composite.addListener(Swt::Close, opts['on_close'])
+        @composite.addListener(SWT::CLOSE, opts['on_close'])
       end
 
       instance_eval &blk
-      @composite.pack
+      #@composite.pack
 
       @composite.open
     end

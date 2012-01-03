@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>edit_line.rb</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+          <a class="source" href="check.html">check.rb</a>
+          <a class="source" href="edit_box.html">edit_box.rb</a>
+          <a class="source" href="edit_line.html">edit_line.rb</a>
+          <a class="source" href="element.html">element.rb</a>
+          <a class="source" href="flow.html">flow.rb</a>
+          <a class="source" href="image.html">image.rb</a>
+          <a class="source" href="stack.html">stack.rb</a>
+      </div>
+    </div>
+  </div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>edit_line.rb</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="k">module</span> <span class="nn">Shoes</span>
+  <span class="k">class</span> <span class="nc">Edit_line</span> <span class="o">&lt;</span> <span class="no">Element</span>
+    <span class="n">java_import</span> <span class="s1">&#39;javax.swing.JTextField&#39;</span>
+    <span class="n">java_import</span> <span class="s1">&#39;java.awt.Dimension&#39;</span>
+    
+    
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">opts</span><span class="o">=</span><span class="p">{})</span>
+      <span class="k">super</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span>
+      <span class="n">opts</span><span class="o">[</span><span class="ss">:width</span><span class="o">]</span> <span class="o">||=</span> <span class="mi">100</span>
+      <span class="n">opts</span><span class="o">[</span><span class="ss">:text</span><span class="o">]</span> <span class="o">||=</span> <span class="s2">&quot;&quot;</span>
+      
+      <span class="vi">@textfield</span> <span class="o">=</span> <span class="no">JTextField</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">opts</span><span class="o">[</span><span class="ss">:text</span><span class="o">]</span><span class="p">)</span>
+      <span class="vi">@textfield</span><span class="o">.</span><span class="n">setPreferredSize</span><span class="p">(</span><span class="n">java</span><span class="o">.</span><span class="n">awt</span><span class="o">.</span><span class="n">Dimension</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">opts</span><span class="o">[</span><span class="ss">:width</span><span class="o">]</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
+
+      <span class="n">parent</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="vi">@textfield</span><span class="p">)</span>
+      <span class="k">return</span> <span class="vi">@textfield</span>
+    <span class="k">end</span>
+    
+    <span class="k">def</span> <span class="nf">to_java</span>
+      <span class="vi">@textfield</span><span class="o">.</span><span class="n">to_java</span>
+    <span class="k">end</span>
+    
+    <span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+      <span class="vi">@textfield</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>

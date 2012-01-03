@@ -15,10 +15,12 @@ logger.debug("Shooes!")
 require 'shoes/swt_constants'
 
 require 'shoes/app'
-require 'shoes/elements'
+require 'shoes/element_methods'
+require 'shoes/layout'
 require 'shoes/window'
 require 'shoes/flow'
 require 'shoes/button'
+require 'shoes/animation'
 
 #require 'shoes/elements/element'
 #require 'shoes/elements/button'

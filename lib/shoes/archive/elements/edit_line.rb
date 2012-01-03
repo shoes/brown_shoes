@@ -1,5 +1,5 @@
 module Shoes
-  class Edit_line < Element
+  class Edit_line < Native
     java_import 'javax.swing.JTextField'
     java_import 'java.awt.Dimension'
     

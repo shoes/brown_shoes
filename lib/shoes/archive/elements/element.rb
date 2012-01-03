@@ -1,5 +1,5 @@
 module Shoes
-class Element
+class Native
   attr_accessor :identifier
 
   def initialize(opts={})

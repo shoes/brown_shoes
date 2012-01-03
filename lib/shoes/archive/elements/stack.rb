@@ -1,5 +1,5 @@
 module Shoes
-  class Stack < Element
+  class Stack < Native
     java_import "javax.swing.JPanel"
     java_import "javax.swing.BoxLayout"
     java_import "java.awt.Dimension"

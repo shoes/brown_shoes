@@ -1,5 +1,5 @@
 module Shoes
-  class Check < Element
+  class Check < Native
     attr_accessor :check
     
     def initialize(parent, opts={}, &blk)

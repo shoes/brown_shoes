@@ -1,11 +1,12 @@
 Shoes.app do
-  button "Click Me" do
+  @b1 = button "Click Me" do
+    debugger
     puts "I've been clicked!'"
   end
-  button "Click Me2" do
+  @b2 = button "Click Me2" do
     puts "I've been clicked2!'"
   end
-  button "Click Me3" do
+  @b3 = button "Click Me3" do
     puts "I've been clicked3!'"
   end
 
