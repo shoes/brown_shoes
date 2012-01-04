@@ -33,5 +33,10 @@ shared_examples_for "A Common Element" do
     it { should respond_to :show }
 
     it { should respond_to :toggle }
+
+    it { should respond_to :displace }
+    it "should move the element when displaced" do
+      
+    end
   end
 end
