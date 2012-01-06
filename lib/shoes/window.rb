@@ -21,8 +21,8 @@ module Shoes
       @container.setText(opts['title'] || DEFAULT_TITLE)
 
       if opts['on_close']
-        logger.debug "Shell #{@composite.inspect} adding block #{blk.inspect}"
-        @container.addListener(SWT::CLOSE, opts['on_close'])
+        logger.debug "Shell #{@container.inspect} adding block #{blk.inspect}"
+        @container.addListener(SWT::Close, opts['on_close'])
       end
 
       instance_eval &blk if block_given?

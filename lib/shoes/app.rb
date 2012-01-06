@@ -23,21 +23,24 @@ module Shoes
         end
       end
 
+      #counter = 0
       while (!$main_display.isDisposed) do
         $main_display.sleep unless $main_display.readAndDispatch
+        #counter += 1
+        #logger.debug "read-dispatch #{counter}"
       end
 
       $main_display.dispose unless $main_display.isDisposed
 
-      #logger.debug "$main_display disposed... exiting Shoes::App.new"
+      logger.debug "$main_display disposed... exiting Shoes::App.new"
     end
 
     private
     def main_window_on_close
       lambda {
-        #logger.debug "main_window on_close block begin... disposing $main_display"
+        logger.debug "main_window on_close block begin... disposing $main_display"
         $main_display.dispose
-        #logger.debug "$main_display disposed"
+        logger.debug "$main_display disposed"
       }
     end
   end
