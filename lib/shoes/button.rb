@@ -3,14 +3,14 @@ require 'shoes/native'
 module Shoes
   class Button < Native
 
-    attr_reader :swt_widget
-
     # Create a button on the specified _shell_
-    def initialize(shell, text, opts = {}, &blk)
-      @swt_widget = SWT::Widgets::Button.new(shell, SWT::PUSH)
-      @swt_widget.setText(text)
-      @swt_widget.setBounds(10, 10, 150, 30)
-      @swt_widget.addSelectionListener(&blk) if block_given?
+    def initialize(container, text, opts = {}, &blk)
+      @container = container
+      @native_widget = SWT::Widgets::Button.new(@container, SWT::PUSH)
+      @native_widget.setText(text)
+      #@native_widget.setBounds(10, 10, 150, 30)
+      @native_widget.addSelectionListener(&blk) if block_given?
+      @native_widget.pack
     end
 
   end

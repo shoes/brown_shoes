@@ -2,16 +2,16 @@ require "spec_helper"
 
 describe Shoes::Flow do
   let(:display) { SWT::Widgets::Display.getDefault }
-  let(:shell) { SWT::Widgets::Shell.new(display) }
+  let(:parent_container) { SWT::Widgets::Shell.new(display) }
 
   it "should have a SWT Composite" do
-    flow = Shoes::Flow.new(shell)
-    flow.swt_composite.should be_a SWT::Layouts::Composite
+    flow = Shoes::Flow.new(parent_container)
+    flow.container.should be_a SWT::Layouts::Composite
   end
 
   it "should horizontally stack 3 widgets" do
     button1 = button2 = button3 = nil
-    Shoes::Flow.new(shell) do
+    Shoes::Flow.new(parent_container) do
       button1 = button("Button1")
       button2 = button("Button2")
       button3 = button("Button3")
@@ -22,12 +22,15 @@ describe Shoes::Flow do
 
   it "should have a margin" do
     button1 = nil
-    Shoes::Flow.new(shell, :margin => 10) do
+    flow = Shoes::Flow.new(parent_container, :margin => 10) do
       button1 = button("Button1")
     end
     button1.top.should == 10
     button1.left.should == 10
+  end
 
+  after :all do
+    SWT::Widgets::Display.getDefault.dispose
   end
 
 end

@@ -6,9 +6,9 @@ shared_examples_for "A Common Element" do
     let(:display) { SWT::Widgets::Display.getDefault }
     let(:shell) { SWT::Widgets::Shell.new(display) }
     let(:flow)  { Shoes::Flow.new(shell) }
-    let(:swt_composite) { flow.swt_composite }
+    let(:container) { flow.container }
 
-    subject {   described_class.new(swt_composite, "text") }
+    subject {   described_class.new(container, "text") }
 
     it { should respond_to :top }
     its(:top) { should_not be_nil }
@@ -36,7 +36,9 @@ shared_examples_for "A Common Element" do
 
     it { should respond_to :displace }
     it "should move the element when displaced" do
-      
+      top = subject.top
+      subject.displace(0, 10)
+      subject.top.should == top + 10
     end
   end
 end

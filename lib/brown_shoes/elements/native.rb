@@ -1,15 +1,20 @@
 module Shoes
   class Native
-    include SwtConstants
 
-    include Log4jruby::LoggerForClass
+    #TODO: make this attr_accessor :identifier ??
+    # Needs to be inheritable
+    #def identifier
+    #  @identifier
+    #end
 
-    attr_reader :native_widget, :container
+    #TODO: make this attr_accessor :native_widget ??
+    # Needs to be inheritable
+    #def native_widget
+    #  @native_widget
+    #end
 
-    # default initializer for calls to
-    # super(opts) from descendant classes
-    def initialize(opts = {})
-
+    def initialize(opts={})
+      @identifier = opts[:id]
     end
 
     # This is the position of the Element from the top
@@ -71,13 +76,15 @@ module Shoes
     # displace(left: a number, top: a number) » self
     # Displacing an element moves it.  But without changing the layout around it.
     def displace(left, top)
-      native_widget.setLocation(bounds.x + left, bounds.y + top)
+      @swt_widget.setLocation(bounds.x + left, bounds.y + top)
       #@swt_composite.pack
     end
+
     private
     def bounds
-      @bounds ||= native_widget.getBounds
+      @native_widget ||= @native_widget.getBounds
     end
+
 
   end
 end

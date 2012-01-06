@@ -14,11 +14,13 @@ describe "Shoes Window" do
       Shoes::Window.new
     end
     it "should pass window args to shell" do
+      width = 2
+      height = 1
       mock_shell = mock(:shell, :open => true)
       SwtShell.should_receive(:new).and_return mock_shell
-      mock_shell.should_receive(:setSize).with(1,2)
+      mock_shell.should_receive(:setSize).with(width, height)
       mock_shell.should_receive(:setText).with("Spec Window")
-      Shoes::Window.new :height => 1, :width => 2, :text => "Spec Window"
+      Shoes::Window.new :height => height, :width => width, :title => "Spec Window"
 
     end
   end

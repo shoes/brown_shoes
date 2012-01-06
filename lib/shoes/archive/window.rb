@@ -7,28 +7,28 @@ module Shoes
     DEFAULT_HEIGHT = 600
     DEFAULT_TITLE = "Shooes!"
 
-    attr_reader :container
+    attr_reader :swt_composite
 
     def initialize(opts = {}, &blk)
       opts.stringify_keys!
       @elements = opts['elements']
 
-      @container = SWT::Widgets::Shell.new($display, SWT::CLOSE)
+      @swt_composite = SWT::Widgets::Shell.new($display, SWT::CLOSE)
 
       width, height = opts['width'] || DEFAULT_WIDTH, opts['height'] || DEFAULT_HEIGHT
 
-      @container.setSize(width, height)
-      @container.setText(opts['title'] || DEFAULT_TITLE)
+      @swt_composite.setSize(width, height)
+      @swt_composite.setText(opts['title'] || DEFAULT_TITLE)
 
       if opts['on_close']
         logger.debug "Shell #{@composite.inspect} adding block #{blk.inspect}"
-        @container.addListener(SWT::CLOSE, opts['on_close'])
+        @swt_composite.addListener(SWT::CLOSE, opts['on_close'])
       end
 
-      instance_eval &blk if block_given?
-      #@container.pack
+      instance_eval &blk
+      #@swt_composite.pack
 
-      @container.open
+      @swt_composite.open
     end
 
   end

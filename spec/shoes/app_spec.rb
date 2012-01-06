@@ -4,9 +4,9 @@ describe Shoes::App do
 
   it "should eval a block" do
 
-    apply_mock_app
-    apply_mock_window
-    apply_mock_flow
+    #apply_mock_app
+    #apply_mock_window
+    #apply_mock_flow
 
 
     outer = 0

@@ -5,32 +5,36 @@ require 'shoes/layout'
 module Shoes
   class Flow < Layout
 
-    # @swt_layout is not "the layout"... in SWT the composite is the "container"
-    # that holds the bounds, contains the widgets, etc.
-    attr_reader :swt_composite, :swt_layout
+    # container - holds the widgets and controls painting
+    # layout - directs the container on _where_ to place widgets
+    attr_reader :container, :layout
 
     def initialize composite_parent, opts = {}, &blk
-      @swt_composite = SWT::Layouts::Composite.new(composite_parent, SWT::NONE)
+      @container = SWT::Layouts::Composite.new(composite_parent, SWT::NONE)
 
       # RowLayout is horizontal by default, wrapping by default
-      @swt_layout = SWT::Layouts::RowLayout.new
+      @layout = SWT::Layouts::RowLayout.new
 
       # set the margins
       margin(opts[:margin]) if opts[:margin]
 
-      @swt_composite.setLayout(@swt_layout)
+      if opts['width'] && opts['height']
+      @container.setSize(opts['width'], opts['height'])
+      end
+
+      @container.setLayout(@layout)
 
       instance_eval &blk if block_given?
 
-      @swt_composite.pack
+      @container.pack
     end
 
     # Add this many pixels to margins on layout
     def margin(margin_pixels)
-      @swt_layout.marginTop = margin_pixels
-      @swt_layout.marginRight = margin_pixels
-      @swt_layout.marginBottom = margin_pixels
-      @swt_layout.marginLeft = margin_pixels
+      @layout.marginTop = margin_pixels
+      @layout.marginRight = margin_pixels
+      @layout.marginBottom = margin_pixels
+      @layout.marginLeft = margin_pixels
     end
   end
 end

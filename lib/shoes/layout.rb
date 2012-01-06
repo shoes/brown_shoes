@@ -1,7 +1,15 @@
 module Shoes
   class Layout
     include SwtConstants
+    extend SwtConstants
+
     include Log4jruby::LoggerForClass
+
+    # default initializer for calls to
+    # super() from descendant classes
+    def initialize(opts = {})
+
+    end
 
     #def stack(opts={}, &blk)
     #  tstack = Stack.new(opts)
@@ -9,14 +17,18 @@ module Shoes
     #end
 
     def flow(opts = {}, &blk)
-      swt_flow = Shoes::Flow.new @composite, opts, &blk
+      swt_flow = Shoes::Flow.new(container, opts, &blk)
     end
 
 
     def button(text, opts={}, &blk)
-      button = Shoes::Button.new(@composite, text, opts, &blk)
+      button = Shoes::Button.new(container, text, opts, &blk)
       #@elements[button.to_s] = button
       #button
+    end
+
+    def animate(fps = 10, &blk)
+      anim = Shoes::Animation.new(fps, &blk)
     end
 
     #

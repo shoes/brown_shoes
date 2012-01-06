@@ -11,12 +11,11 @@ require 'log4jruby/logger_for_class'
 logger = Log4jruby::Logger.get('test', :tracing => true, :level => :debug )
 logger.debug("Shooes!")
 
-
 require 'shoes/swt_constants'
-
 require 'shoes/app'
 require 'shoes/element_methods'
 require 'shoes/layout'
+require 'shoes/native'
 require 'shoes/window'
 require 'shoes/flow'
 require 'shoes/button'

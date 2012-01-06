@@ -5,6 +5,7 @@ module SwtConstants
     Composite = org.eclipse.swt.widgets.Composite
     FillLayout = org.eclipse.swt.layout.FillLayout
     RowLayout = org.eclipse.swt.layout.RowLayout
+    RowData = org.eclipse.swt.layout.RowData
   end
 
   module SWT::Widgets
