@@ -1,45 +1,218 @@
-require 'java'
+# -*- encoding: utf-8 -*-
+#
+# lib/shoes.rb
+# The Shoes base app, both a demonstration and the learning tool for
+# using Shoes.
+#
+ARGV.delete_if { |x| x =~ /-psn_/ }
 
-require 'swt.jar'
+class Encoding
+  %w[UTF_7 UTF_16BE UTF_16LE UTF_32BE UTF_32LE].each do |enc|
+    eval "class #{enc};end" unless const_defined? enc.to_sym
+  end
+end
 
-require 'rubygems'
-require 'facets/hash'
+require 'open-uri'
+require 'optparse'
+require 'resolv-replace' if RUBY_PLATFORM =~ /win/
+require_relative 'shoes/inspect'
+require_relative 'shoes/cache'
+if Object.const_defined? :Shoes
+  require_relative 'shoes/image'
+end
+require_relative 'shoes/shybuilder'
 
-require 'lib/log4j/log4j-1.2.16.jar'
-require 'log4jruby'
-require 'log4jruby/logger_for_class'
-logger = Log4jruby::Logger.get('test', :tracing => true, :level => :debug )
-logger.debug("Shooes!")
+def Shoes.hook; end
 
-require 'shoes/swt_constants'
-require 'shoes/app'
-require 'shoes/element_methods'
-require 'shoes/layout'
-require 'shoes/native'
-require 'shoes/window'
-require 'shoes/flow'
-require 'shoes/button'
-require 'shoes/animation'
+class Encoding
+ %w[ASCII_8BIT UTF_16BE UTF_16LE UTF_32BE UTF_32LE US_ASCII].each do |ec|
+   eval "#{ec} = '#{ec.sub '_', '-'}'"
+ end unless RUBY_PLATFORM =~ /linux/ or RUBY_PLATFORM =~ /darwin/
+end
 
-#require 'shoes/elements/element'
-#require 'shoes/elements/button'
-#require 'shoes/elements/stack'
-#require 'shoes/elements/flow'
-#require 'shoes/elements/edit_line'
-#require 'shoes/elements/edit_box'
-#require 'shoes/elements/check'
-#require 'shoes/elements/image'
+class Range 
+  def rand 
+    conv = (Integer === self.end && Integer === self.begin ? :to_i : :to_f)
+    ((Kernel.rand * (self.end - self.begin)) + self.begin).send(conv) 
+  end 
+end
 
-module Shoes
-  include SwtConstants
-  include Log4jruby::LoggerForClass
+unless Time.respond_to? :today
+  def Time.today
+    t = Time.now
+    t - (t.to_i % 86400)
+  end
+end
 
-  def self.app(opts={}, &blk)
-    Shoes::App.new(opts, &blk)
-    logger.debug "Exiting Shoes.app"
+class Shoes
+  RELEASES = %w[Curious Raisins Policeman]
+
+  NotFound = proc do
+    para "404 NOT FOUND, GUYS!"
+  end
+ 
+  class << self; attr_accessor :locale, :language end
+  @locale = ENV["SHOES_LANG"] || ENV["LC_MESSAGES"] || ENV["LC_ALL"] || ENV["LANG"] || "C"
+  @language = @locale[/^(\w{2})_/, 1] || "en"
+
+  @mounts = []
+
+  OPTS = OptionParser.new do |opts|
+    opts.banner = "Usage: shoes [options] (app.rb or app.shy)"
+    
+    opts.on("-m", "--manual",
+            "Open the built-in manual.") do
+      show_manual
+    end
+
+    opts.on("-p", "--package",
+            "Package a Shoes app for Windows, OS X and Linux.") do |s|
+      make_pack
+    end
+
+    opts.on("-g", "--gem",
+            "Passes commands to RubyGems.") do
+      require 'shoes/setup'
+      require 'rubygems/gem_runner'
+      Gem::GemRunner.new.run(ARGV)
+      raise SystemExit, ""
+    end
+
+    opts.on("--manual-html DIRECTORY", "Saves the manual to a directory as HTML.") do |dir|
+      manual_as :html, dir
+      raise SystemExit, "HTML manual in: #{dir}"
+    end
+
+    opts.on("--install MODE SRC DEST", "Installs a file.") do |mode|
+      src, dest = ARGV
+      FileUtils.install src, dest, :mode => mode.to_i(8), :preserve => true
+      raise SystemExit, ""
+    end
+
+    opts.on("--nolayered", "No WS_EX_LAYERED style option.") do
+      $NOLAYERED = 1
+      Shoes.args!
+    end
+    
+    opts.on_tail("-v", "--version", "Display the version info.") do
+      raise SystemExit, File.read("#{DIR}/VERSION.txt").strip
+    end
+
+    opts.on_tail("-h", "--help", "Show this message") do
+      raise SystemExit, opts.to_s
+    end
   end
 
-=begin
+  class SettingUp < StandardError; end
+
+  @setups = {}
+
+  def self.setup &blk
+    require 'shoes/setup'
+    line = caller[0]
+    return if @setups[line]
+    script = line[/^(.+?):/, 1]
+    set = Shoes::Setup.new(script, &blk)
+    @setups[line] = true
+    unless set.no_steps?
+      raise SettingUp
+    end
+  end
+
+  def self.show_selector
+    fname = ask_open_file
+    Shoes.visit(fname) if fname
+  end
+
+  def self.package_app
+    fname = ask_open_file
+    return false unless fname
+    start_shy_builder fname
+  end
+
+  def self.splash
+    font "#{DIR}/fonts/Lacuna.ttf"
+    Shoes.app :width => 400, :height => 300, :resizable => false do  
+      style(Para, :align => "center", :weight => "bold", :font => "Lacuna Regular", :size => 13)
+      style(Link, :stroke => yellow, :underline => nil)
+      style(LinkHover, :stroke => yellow, :fill => nil)
+
+      x1 = 77; y1 = 122
+      x2 = 148; y2 = -122
+      x3 = 245; y3 = 0
+
+      nofill
+      strokewidth 40.0
+
+      @waves = stack :top => 0, :left => 0
+      
+      require 'shoes/search'
+      require 'shoes/help'
+
+      stack :margin => 18 do
+        para "Welcome to", :stroke => "#DFA", :margin => 0
+        para "SHOES", :size => 48, :stroke => "#DFA", :margin_top => 0
+        stack do
+          background black(0.2), :curve => 8
+          para link("Open an App.") { Shoes.show_selector and close }, :margin => 10, :margin_bottom => 4
+          #para link("Package an App.") { Shoes.package_app and close }, :margin => 10, :margin_bottom => 4
+					para link("Package an App.") { Shoes.make_pack and close }, :margin => 10, :margin_bottom => 4
+          para link("Read the Manual.") { Shoes.show_manual and close }, :margin => 10
+        end
+        inscription "Alt-Slash opens the console.", :stroke => "#DFA", :align => "center"
+      end
+
+      animate(10) do |ani|
+        a = Math.sin(ani * 0.02) * 20
+        @waves.clear do
+          background white
+          y = -30
+          16.times do |i|
+            shape do
+              move_to x = (-300 - (i*(a*0.8))), y
+              c = (a + 14) * 0.01
+              stroke rgb(i * 0.06, c + 0.1, 0.1, 1.0 - (ani * 0.0003))
+              4.times do
+                curve_to x1 + x, (y1-(i*a)) + y, x2 + x, (y2+(i*a)) + y, x3 + x, y3 + y
+                x += x3
+              end
+            end
+            y += 30
+          end
+        end
+      end
+    end
+  end
+
+  def self.make_pack
+    require 'shoes/pack'
+    Shoes.app(:width => 500, :height => 480, :resizable => true, &PackMake)
+  end
+
+  def self.manual_p(str, path)
+    str.gsub(/\n+\s*/, " ").
+      gsub(/&/, '&amp;').gsub(/>/, '&gt;').gsub(/>/, '&lt;').gsub(/"/, '&quot;').
+      gsub(/`(.+?)`/m, '<code>\1</code>').gsub(/\[\[BR\]\]/i, "<br />\n").
+      gsub(/\^(.+?)\^/m, '\1').
+      gsub(/'''(.+?)'''/m, '<strong>\1</strong>').gsub(/''(.+?)''/m, '<em>\1</em>').
+      gsub(/\[\[(http:\/\/\S+?)\]\]/m, '<a href="\1" target="_new">\1</a>').
+      gsub(/\[\[(http:\/\/\S+?) (.+?)\]\]/m, '<a href="\1" target="_new">\2</a>').
+      gsub(/\[\[(\S+?)\]\]/m) do
+        ms, mn = $1.split(".", 2)
+        if mn
+          '<a href="' + ms + '.html#' + mn + '">' + mn + '</a>'
+        else
+          '<a href="' + ms + '.html">' + ms + '</a>'
+        end
+      end.
+      gsub(/\[\[(\S+?) (.+?)\]\]/m, '<a href="\1.html">\2</a>').
+      gsub(/\!(\{[^}\n]+\})?([^!\n]+\.\w+)\!/) do
+        x = "static/#$2"
+        FileUtils.cp("#{DIR}/#{x}", "#{path}/#{x}") if File.exists? "#{DIR}/#{x}"
+        '<img src="' + x + '" />'
+      end
+  end
+
   def self.manual_link(sect)
   end
 
@@ -360,22 +533,20 @@ module Shoes
   end
 
   class Types::Widget
-    @@types = {}
+    @types = {}
     def self.inherited subc
       methc = subc.to_s[/(^|::)(\w+)$/, 2].
               gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
               gsub(/([a-z\d])([A-Z])/,'\1_\2').downcase
-      @@types[methc] = subc
+      @types[methc] = subc
       Shoes.class_eval %{
         def #{methc}(*a, &b)
-          a.unshift Widget.class_variable_get("@@types")[#{methc.dump}]
+          a.unshift Widget.instance_variable_get("@types")[#{methc.dump}]
           widget(*a, &b)
         end
       }
     end
   end
-=end
-
 end
 
 def window(*a, &b)

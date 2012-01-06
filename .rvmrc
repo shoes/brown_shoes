@@ -1,1 +1,1 @@
-rvm --create 1.9.3@shoes
+rvm --create use jruby-1.6.5@shoes

@@ -1,0 +1,1 @@
+rocco -o doc lib/shoes/**/*.rb lib/shoes/*.rb Gemfile
