@@ -2,6 +2,7 @@ source "http://rubygems.org"
 
 gem 'facets'
 gem 'log4jruby'
+gem 'swt'
 
 group :development do
   gem "ruby-debug"

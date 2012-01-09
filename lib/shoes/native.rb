@@ -1,7 +1,5 @@
 module Shoes
   class Native
-    include SwtConstants
-
     include Log4jruby::LoggerForClass
 
     attr_reader :native_widget, :container
@@ -71,9 +69,12 @@ module Shoes
     # displace(left: a number, top: a number) » self
     # Displacing an element moves it.  But without changing the layout around it.
     def displace(left, top)
-      native_widget.setLocation(bounds.x + left, bounds.y + top)
-      #@swt_composite.pack
+      unless native_widget.isDisposed
+        logger.debug "#{self.inspect} displace top:#{top}  left:#{left}"
+        native_widget.setLocation(bounds.x + left, bounds.y + top)
+      end
     end
+
     private
     def bounds
       @bounds ||= native_widget.getBounds

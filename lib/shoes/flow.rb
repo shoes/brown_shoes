@@ -10,10 +10,10 @@ module Shoes
     attr_reader :container, :layout
 
     def initialize composite_parent, opts = {}, &blk
-      @container = SWT::Layouts::Composite.new(composite_parent, SWT::NONE)
+      @container = Swt::Widgets::Composite.new(composite_parent, Swt::SWT::NONE)
 
       # RowLayout is horizontal by default, wrapping by default
-      @layout = SWT::Layouts::RowLayout.new
+      @layout = Swt::Layout::RowLayout.new
 
       # set the margins
       margin(opts[:margin]) if opts[:margin]

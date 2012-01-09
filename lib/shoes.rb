@@ -1,17 +1,16 @@
 require 'java'
 
-require 'swt.jar'
-
 require 'rubygems'
 require 'facets/hash'
+
+require 'swt'
 
 require 'lib/log4j/log4j-1.2.16.jar'
 require 'log4jruby'
 require 'log4jruby/logger_for_class'
 logger = Log4jruby::Logger.get('test', :tracing => true, :level => :debug )
-logger.debug("Shooes!")
+logger.debug("Shoooes!")
 
-require 'shoes/swt_constants'
 require 'shoes/app'
 require 'shoes/element_methods'
 require 'shoes/layout'
@@ -31,7 +30,7 @@ require 'shoes/animation'
 #require 'shoes/elements/image'
 
 module Shoes
-  include SwtConstants
+
   include Log4jruby::LoggerForClass
 
   def self.app(opts={}, &blk)

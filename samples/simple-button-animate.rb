@@ -1,13 +1,17 @@
 Shoes.app do
   flow :margin => 12 do
     # Set up three buttons
-    button "One"
-    two = button "Two"
-    button "Three"
+    button "Stop" do
+      @anim.stop
+    end
+    @two = button "Watch Me!"
+    button "Start" do
+      @anim.start
+    end
     # Bounce the second button
-    animate do |i|
-      debugger
-      two.displace(0, (Math.sin(i) * 6).to_i)
+    @anim = animate do |frame|
+      logger.debug "frame #{frame}"
+      @two.displace(0, (Math.sin(frame) * 30).to_i)
     end
   end
 end

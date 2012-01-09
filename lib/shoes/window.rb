@@ -13,7 +13,7 @@ module Shoes
       opts.stringify_keys!
       @elements = opts['elements']
 
-      @container = SWT::Widgets::Shell.new($display, SWT::CLOSE)
+      @container = Swt::Widgets::Shell.new($display, Swt::SWT::CLOSE)
 
       width, height = opts['width'] || DEFAULT_WIDTH, opts['height'] || DEFAULT_HEIGHT
 
@@ -22,7 +22,7 @@ module Shoes
 
       if opts['on_close']
         logger.debug "Shell #{@container.inspect} adding block #{blk.inspect}"
-        @container.addListener(SWT::Close, opts['on_close'])
+        @container.addListener(Swt::SWT::Close, opts['on_close'])
       end
 
       instance_eval &blk if block_given?

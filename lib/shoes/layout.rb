@@ -1,7 +1,5 @@
 module Shoes
   class Layout
-    include SwtConstants
-    extend SwtConstants
 
     include Log4jruby::LoggerForClass
 
