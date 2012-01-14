@@ -300,7 +300,7 @@ App object so you can do somefurther editing.
    end
    def add(msg)
      @stack.app do
-       @stack.append do
+       append do
          para msg
        end
      end

@@ -236,7 +236,7 @@ Shoesでは、これらの種類のブロックは同じ働きをします。こ
    end
    def add(msg)
      @stack.app do
-       @stack.append do
+       append do
          para msg
        end
      end
