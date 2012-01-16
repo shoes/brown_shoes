@@ -1,9 +1,0 @@
-#!/usr/bin/env jruby
-require 'rubygems'
-
-$:<< "lib"
-
-require 'brown_shoes'
-
-require ARGV[0]
-

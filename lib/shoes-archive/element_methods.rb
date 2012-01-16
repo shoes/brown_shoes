@@ -1,9 +1,3 @@
-#require 'animation'
-
-#require 'native'
-#require 'button'
-#require 'flow'
-
 module Shoes
   module ElementMethods
 
@@ -24,7 +18,7 @@ module Shoes
     end
 
     def animate(fps = 10, &blk)
-      anim = Shoes::Animation.new(self, fps, &blk)
+      anim = Shoes::Animation.new(fps, &blk)
     end
 
     #

@@ -1,16 +1,16 @@
-require 'shoes/native'
-
+#debugger
+#require 'native'
 module Shoes
   class Button < Native
 
-    # Create a button on the specified _shell_
-    def initialize(container, text, opts = {}, &blk)
-      @container = container
-      @native_widget = Swt::Widgets::Button.new(@container, Swt::SWT::PUSH)
-      @native_widget.setText(text)
-      #@native_widget.setBounds(10, 10, 150, 30)
-      @native_widget.addSelectionListener(&blk) if block_given?
-      @native_widget.pack
+    attr_accessor :native_widget
+
+    def initialize(parent, text = 'Button', opts={}, &blk)
+      super(opts)
+      @native_widget = javax.swing.JButton.new(text)
+      @native_widget.add_action_listener(&blk) unless blk.nil?
+      parent.add(@native_widget)
+      return self
     end
 
   end

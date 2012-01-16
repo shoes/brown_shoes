@@ -1,40 +1,43 @@
 require 'shoes/layout'
 
-# flow takes these options
-#   :margin - integer - add this many pixels to all 4 sides of the layout
 module Shoes
-  class Flow < Layout
+class Flow < Layout
+  import java.awt.BorderLayout
+  import java.awt.Dimension
+  import java.awt.FlowLayout
+  import javax.swing.JPanel
+  import javax.swing.BoxLayout
 
-    # container - holds the widgets and controls painting
-    # layout - directs the container on _where_ to place widgets
-    attr_reader :container, :layout
+  import javax.swing.border.EmptyBorder
 
-    def initialize composite_parent, opts = {}, &blk
-      @container = Swt::Widgets::Composite.new(composite_parent, Swt::SWT::NONE)
+  attr_accessor :parent_container, :container
 
-      # RowLayout is horizontal by default, wrapping by default
-      @layout = Swt::Layout::RowLayout.new
+  def initialize(parent_container, opts={}, &blk)
+    opts.stringify_keys!
+    @parent_container = parent_container
+    @container = JPanel.new()
+    #layout = BoxLayout.new(@container, BoxLayout::LINE_AXIS)
+    layout = FlowLayout.new
+    layout.alignment = FlowLayout::LEFT
 
-      # set the margins
-      margin(opts[:margin]) if opts[:margin]
-
-      if opts['width'] && opts['height']
-      @container.setSize(opts['width'], opts['height'])
-      end
-
-      @container.setLayout(@layout)
-
-      instance_eval &blk if block_given?
-
-      @container.pack
+    @container.set_layout(layout)
+    #debugger
+    unless parent_container.is_a? BorderLayout
+    if(opts['height'] && opts['width'])
+      #@container.set_preferred_size(Dimension.new(opts['width'], opts['height']))
+    end
+    end
+    
+    if margin = opts['margin']
+      #@container.border = EmptyBorder.new(margin, margin, margin, margin)
+      #@container.border = javax.swing.border.LineBorder.new(java.awt.Color::RED, 2, true)
+      @container.setBackground(java.awt.Color::PINK)
     end
 
-    # Add this many pixels to margins on layout
-    def margin(margin_pixels)
-      @layout.marginTop = margin_pixels
-      @layout.marginRight = margin_pixels
-      @layout.marginBottom = margin_pixels
-      @layout.marginLeft = margin_pixels
-    end
+    instance_eval &blk if block_given?
+    parent_container.add(container, BorderLayout::CENTER)
+
+    super
   end
+end
 end
