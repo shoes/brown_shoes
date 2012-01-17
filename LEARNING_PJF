@@ -1,0 +1,6 @@
+[1/6/12]
+SWT : FlowSpec : Rspec won't end after spec when running located
+  spec (by line number) swt..display issue?
+
+Swing : Apparently no way to get component position on window?
+This makes testing margin effects very difficult.

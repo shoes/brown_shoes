@@ -1,0 +1,8 @@
+#!/usr/bin/env jruby --1.9
+require 'rubygems'
+
+$:<< "lib"
+
+require 'shoes'
+
+require ARGV[0]

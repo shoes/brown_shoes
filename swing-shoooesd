@@ -1,0 +1,13 @@
+#!/usr/bin/env jruby --1.9 --debug
+require 'rubygems'
+require 'ruby-debug'
+
+$:<< "lib"
+
+require "java"
+
+ENV['log_level'] = 'debug'
+
+require 'shoes'
+
+require ARGV[0]
