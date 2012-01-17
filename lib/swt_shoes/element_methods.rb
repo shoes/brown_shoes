@@ -1,17 +1,21 @@
 #require 'shoes/framework_adapters/swt_shoes/flow'
 
+require 'white_shoes/element_methods'
+
+
 module SwtShoes
-  module Shoes
     module ElementMethods
+
+      include WhiteShoes::ElementMethods
 
       #def stack(opts={}, &blk)
       #  tstack = Stack.new(opts)
       #  layout(tstack, &blk)
       #end
 
-      def flow(opts = {}, &blk)
-        swt_flow = SwtShoes::Shoes::Flow.new(container, opts, &blk)
-      end
+      #def flow(opts = {}, &blk)
+      #  swt_flow = SwtShoes::Shoes::Flow.new(container, opts, &blk)
+      #end
 
       #
       #def button(text, opts={}, &blk)
@@ -50,5 +54,4 @@ module SwtShoes
       #end
       #
     end
-  end
 end

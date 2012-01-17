@@ -1,10 +1,10 @@
 require 'shoes/native'
 
-module Shoes
+module SwingShoes
   class Button < Native
 
     # Create a button on the specified _shell_
-    def initialize(container, text, opts = {}, &blk)
+    def initialize(container, text = 'Button', opts = {}, &blk)
       @container = container
       @native_widget = Swt::Widgets::Button.new(@container, Swt::SWT::PUSH)
       @native_widget.setText(text)

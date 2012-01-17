@@ -16,13 +16,13 @@ module Shoes
     include Shoes::ElementMethods
 
     attr_accessor :elements, :framework_adapter
+    attr_accessor :opts, :blk
 
     def initialize(opts={}, &blk)
-      #debugger
+      self.opts = opts
+      self.blk = blk
 
-      @framework_adapter = self.framework.new opts, &blk
-
-      puts "Framework Adapter initialized"
+      @framework_adapter = self.framework.new self
 
     end
 

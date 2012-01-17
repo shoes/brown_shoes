@@ -1,5 +1,5 @@
-module Shoes
-  class Native < BaseObject
+module WhiteShoes
+  module CommonMethods
 
     #TODO: make this attr_accessor :identifier ??
     # Needs to be inheritable

@@ -1,7 +1,6 @@
 #require 'shoes/framework_adapters/swt_shoes/element_methods'
 
 module SwtShoes
-  module Shoes
     class Layout
 
       DEFAULT_WIDTH = 800
@@ -9,7 +8,7 @@ module SwtShoes
       DEFAULT_TITLE = "Shooes!"
 
 
-      include ElementMethods
+      include SwtShoes::ElementMethods
       include Log4jruby::LoggerForClass
 
       # default initializer for calls to
@@ -61,5 +60,4 @@ module SwtShoes
 
 
     end
-  end
 end

@@ -1,12 +1,15 @@
 
-require 'shoes/framework_adapters/white_shoes/base'
-require 'shoes/framework_adapters/white_shoes/app'
+require 'white_shoes/base'
+require 'white_shoes/app'
 
 require 'rubygems'
 require 'facets/hash'
 
 module WhiteShoes
-  module Shoes
+
+    #def adapter
+    #  WhiteShoes
+    #end
     #
     ## Adapts the BaseView methods specific for the framework
     #class BaseNative < Base
@@ -62,6 +65,6 @@ module WhiteShoes
     ## Adapts the BaseViewHelper methods specific for the framework
     #class BaseViewHelper
     #end
-  end
+
 end
 
