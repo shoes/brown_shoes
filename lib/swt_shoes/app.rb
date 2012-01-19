@@ -1,4 +1,3 @@
-require 'shoes'
 require 'swt'
 
 #require 'shoes/framework_adapters/swt_shoes/window'
@@ -8,38 +7,22 @@ module SwtShoes
   # Shoes::App.new creates a new Shoes application window!
   # The default window is a [flow]
   #
-  class App < WhiteShoes::App
-    include SwtShoes::ElementMethods
+  module App
 
-    include Log4jruby::LoggerForClass
+    def gui_init
+      self.gui_container = container = Swt::Widgets::Shell.new($display, Swt::SWT::CLOSE)
 
-    attr_accessor :elements, :frame
-    attr_accessor :main_shell, :container
+      opts = self.opts
 
-    DEFAULT_WIDTH = 800
-    DEFAULT_HEIGHT = 600
-    DEFAULT_TITLE = "Shooes!"
+      container.setSize(self.width, self.height)
+      container.setText(self.title)
 
-    def initialize(adapted_object)
-      @elements = {}
+      container.addListener(Swt::SWT::Close, main_window_on_close)
+    end
 
-      opts = adapted_object.opts
-      blk = adapted_object.blk
 
-      @container = Swt::Widgets::Shell.new($display, Swt::SWT::CLOSE)
-
-      width, height = opts['width'] || DEFAULT_WIDTH, opts['height'] || DEFAULT_HEIGHT
-
-      @container.setSize(width, height)
-      @container.setText(opts['title'] || DEFAULT_TITLE)
-
-      @container.addListener(Swt::SWT::Close, main_window_on_close)
-
-      flow do
-        instance_eval &blk if blk
-      end
-
-      @container.open
+    def gui_open
+      container.open
 
       Swt.event_loop { Swt.display.isDisposed }
 
@@ -56,3 +39,10 @@ module SwtShoes
     end
   end
 end
+
+module Shoes
+  class App
+    include SwtShoes::App
+  end
+end
+

@@ -1,41 +1,40 @@
 require "spec_helper"
 
+require 'white_shoes'
+
 describe Shoes::App do
 
-  it "should eval a block" do
+  describe "initialize" do
 
-    #apply_mock_app
-    #apply_mock_window
-    #apply_mock_flow
-
-
-    outer = 0
-    Shoes::App.new do
-      outer = 1
+    it "should set accessors from constructor args" do
+      input_blk = lambda {}
+      args = {:args => true}
+      Shoes::App.any_instance.stub(:flow)
+      app = Shoes::App.new args, &input_blk
+      app.opts.should == args
+      app.blk.should == input_blk
     end
-    outer.should == 1
-  end
 
-  it "should have a window" do
-    apply_mock_app
+    it "should set default accessor values" do
+      input_blk = lambda {}
+      args = {}
+      Shoes::App.any_instance.stub(:flow)
+      app = Shoes::App.new args, &input_blk
+      app.width.should_not be_nil
+      app.height.should_not be_nil
+      app.title.should_not be_nil
+    end
+    it "should set accessors from opts" do
+      input_blk = lambda {}
+      args = {:width => 1, :height => 2, :title => "Shoes::App Spec"}
+      Shoes::App.any_instance.stub(:flow)
+      app = Shoes::App.new args, &input_blk
+      app.width.should == 1
+      app.height.should == 2
+      app.title.should == "Shoes::App Spec"
 
-    mock_window = mock(:window)
-    Shoes::Window.should_receive(:new) { mock_window }
-
-    Shoes::App.new
-  end
-
-  it "default container should be a flow" do
-    apply_mock_app
-    apply_mock_window
-    apply_mock_flow
-
-    mock_window = mock(:window)
-    Shoes::Window.should_receive(:new) { mock_window }
-
-    Shoes::App.new do
-      self.should be_a Shoes::Flow
     end
   end
+
 
 end

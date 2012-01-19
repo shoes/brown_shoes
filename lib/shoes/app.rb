@@ -1,4 +1,5 @@
 require 'shoes/element_methods'
+require 'facets/hash'
 
 def window(*a, &b)
   Shoes.app(*a, &b)
@@ -11,18 +12,34 @@ module Shoes
     Shoes::App.new(opts, &blk)
   end
 
-  class App < BaseObject
+  class App
+
+    DEFAULTS = { 'width' => 800, 'height' => 600, 'title' => "Shoooes!"}
 
     include Shoes::ElementMethods
 
-    attr_accessor :elements, :framework_adapter
+    attr_accessor :elements, :gui_container
     attr_accessor :opts, :blk
 
+    attr_accessor :width, :height, :title
+
     def initialize(opts={}, &blk)
+      opts.stringify_keys!
+      opts = DEFAULTS.merge(opts)
+      self.width = opts['width']
+      self.height = opts['height']
+      self.title = opts['title']
+      
       self.opts = opts
       self.blk = blk
 
-      @framework_adapter = self.framework.new self
+      gui_init
+
+      flow do
+        instance_eval &blk if blk
+      end
+
+      gui_open
 
     end
 
@@ -78,46 +95,46 @@ module Shoes
     #  button
     #end
 
-    def image(path, opts={})
-      image = Image.new(path, @current_panel, opts)
-      @elements[image.identifier] = image
-      image
-    end
-
-    def edit_line(opts={})
-      eline = Edit_line.new(@current_panel, opts)
-      @elements[eline.identifier] = eline
-      eline
-    end
-
-    def text_box(opts={})
-      tbox = Text_box.new(@current_panel, opts)
-      @elements[tbox.identifier] = tbox
-      tbox
-    end
-
-    def check(opts={}, &blk)
-      cbox = Check.new(@current_panel, opts)
-      @elements[cbox.identifier] = cbox
-      cbox
-    end
-
-    def stack(opts={}, &blk)
-      tstack = Stack.new(opts)
-      layout(tstack, &blk)
-    end
-
-    def flow(opts={}, &blk)
-      tflow = Flow.new(@container, opts, &blk)
-      #layout(tflow, &blk)
-    end
-
-    def layout(layer, &blk)
-      parent = @current_panel
-      @current_panel = layer.panel
-      instance_eval &blk
-      parent.add(@current_panel)
-      @current_panel = parent
-    end
+    #def image(path, opts={})
+    #  image = Image.new(path, @current_panel, opts)
+    #  @elements[image.identifier] = image
+    #  image
+    #end
+    #
+    #def edit_line(opts={})
+    #  eline = Edit_line.new(@current_panel, opts)
+    #  @elements[eline.identifier] = eline
+    #  eline
+    #end
+    #
+    #def text_box(opts={})
+    #  tbox = Text_box.new(@current_panel, opts)
+    #  @elements[tbox.identifier] = tbox
+    #  tbox
+    #end
+    #
+    #def check(opts={}, &blk)
+    #  cbox = Check.new(@current_panel, opts)
+    #  @elements[cbox.identifier] = cbox
+    #  cbox
+    #end
+    #
+    #def stack(opts={}, &blk)
+    #  tstack = Stack.new(opts)
+    #  layout(tstack, &blk)
+    #end
+    #
+    ##def flow(opts={}, &blk)
+    ##  tflow = Flow.new(@container, opts, &blk)
+    ##  #layout(tflow, &blk)
+    ##end
+    #
+    #def layout(layer, &blk)
+    #  parent = @current_panel
+    #  @current_panel = layer.panel
+    #  instance_eval &blk
+    #  parent.add(@current_panel)
+    #  @current_panel = parent
+    #end
   end
 end
