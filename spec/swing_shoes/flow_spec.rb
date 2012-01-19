@@ -60,7 +60,7 @@ describe SwingShoes::Flow do
   end
 
   after :all do
-    SWT::Widgets::Display.getDefault.dispose
+    #SWT::Widgets::Display.getDefault.dispose
   end
 
 end

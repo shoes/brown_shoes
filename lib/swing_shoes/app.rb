@@ -15,7 +15,7 @@ module SwingShoes
 
       frame = JFrame.new()
 
-      self.gui_container = container = frame.get_content_pane
+      @gui_container = container = frame.get_content_pane
 
       layout = FlowLayout.new(FlowLayout::LEFT)
 

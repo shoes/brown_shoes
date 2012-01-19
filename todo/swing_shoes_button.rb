@@ -1,7 +1,7 @@
 #debugger
 #require 'native'
-module Shoes
-  class Button
+module SwingShoes
+  module Button
 
     include SwingShoes::CommonMethods
 
@@ -17,3 +17,12 @@ module Shoes
 
   end
 end
+
+
+module Shoes
+  class Button
+    include SwingShoes::Button
+  end
+end
+
+

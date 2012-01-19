@@ -24,6 +24,7 @@ shared_examples "A WhiteShoes Shoes::App" do
     it "should leave a reference to the framework object for further operations" do
       subject.should_receive(:gui_container=).with(anything)
       subject.gui_init
+      debugger; 1
     end
   end
   describe "gui_open" do

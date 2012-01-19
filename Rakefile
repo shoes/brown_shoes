@@ -1,5 +1,54 @@
 require 'rubygems'
 require 'rake'
+require 'rspec'
+
+# thanks Dan Lucraft!
+def jruby_run(cmd, swt = false)
+  opts = "-J-XstartOnFirstThread" if swt && Config::CONFIG["host_os"] =~ /darwin/
+  sh("jruby --debug --1.9 #{opts} -S #{cmd}; echo 'done'")
+end
+
+def rspec(options = "")
+  #files = Dir['plugins/*/spec/*/*_spec.rb'] + Dir['plugins/*/spec/*/*/*_spec.rb'] + Dir['plugins/*/spec/*/*/*/*_spec.rb']
+  #rspec_opts = "#{options} -c #{files.join(" ")}"
+  rspec_opts = "-c #{options}"
+  "./bin/rspec #{rspec_opts}"
+end
+
+
+desc "Run the specs with JUnit output for the Hudson reporter"
+task :specs do
+  rspec_opts = { :spec => ["/swing_shoes/*.rb"] }
+  jruby_run(rspec(rspec_opts))
+end
+
+
+task :default => ["spec:all"]
+
+desc "Run Specs on Shoes + All Frameworks"
+task "spec:all" do
+
+end
+
+desc "Specs for SWT Framework"
+task "spec:swt" do
+  ruby %{--1.9 --debug -J-XstartOnFirstThread} do
+
+    ARGV = ["spec/swt_shoes"]
+    require 'rubygems'
+
+    version = ">= 0"
+
+    #if ARGV.first =~ /^_(.*)_$/ and Gem::Version.correct? $1 then
+    #  version = $1
+    #  ARGV.shift
+    #end
+
+    gem 'rspec-core', version
+    load Gem.bin_path('rspec-core', 'rspec', version)
+
+  end
+end
 #<<<<<<< HEAD
 #require 'rake/clean'
 ## require_relative 'platform/skel'
@@ -522,22 +571,22 @@ require 'rake'
 #rescue LoadError
 #  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 #end
-
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
-
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-end
-
-task :spec => :check_dependencies
-
-task :default => :spec
+#
+#require 'spec/rake/spectask'
+#Spec::Rake::SpecTask.new(:spec) do |spec|
+#  spec.libs << 'lib' << 'spec'
+#  spec.spec_files = FileList['spec/**/*_spec.rb']
+#end
+#
+#Spec::Rake::SpecTask.new(:rcov) do |spec|
+#  spec.libs << 'lib' << 'spec'
+#  spec.pattern = 'spec/**/*_spec.rb'
+#  spec.rcov = true
+#end
+#
+#task :spec => :check_dependencies
+#
+#task :default => :spec
 
 #
 #require 'rake/rdoctask'

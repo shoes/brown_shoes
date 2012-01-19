@@ -6,4 +6,9 @@ describe SwingShoes::App do
   it_behaves_like "A WhiteShoes Shoes::App"
 
 
+  after :each do
+    debugger
+    subject
+  end
+
 end

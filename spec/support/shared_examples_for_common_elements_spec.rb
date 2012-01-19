@@ -3,10 +3,10 @@
 shared_examples_for "A Common Element" do
 
   describe "basic dimensions" do
-    let(:display) { SWT::Widgets::Display.getDefault }
-    let(:shell) { SWT::Widgets::Shell.new(display) }
-    let(:flow)  { Shoes::Flow.new(shell) }
-    let(:container) { flow.container }
+    #let(:display) { SWT::Widgets::Display.getDefault }
+    #let(:shell) { SWT::Widgets::Shell.new(display) }
+    #let(:flow)  { Shoes::Flow.new(shell) }
+    #let(:container) { flow.container }
 
     subject {   described_class.new(container, "text") }
 
