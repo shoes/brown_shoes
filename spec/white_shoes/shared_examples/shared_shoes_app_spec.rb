@@ -1,6 +1,6 @@
 
 shared_examples "A WhiteShoes Shoes::App" do
-  class ShoeLaces
+  class ShoeLacesApp
     attr_accessor :opts, :blk, :gui_container
     attr_accessor :width, :height, :title
 
@@ -12,7 +12,7 @@ shared_examples "A WhiteShoes Shoes::App" do
     end
   end
   let(:shoelaces) {
-    shoelaces = ShoeLaces.new({}) {}
+    shoelaces = ShoeLacesApp.new({}) {}
     shoelaces.stub_chain(:logger, :debug)
     shoelaces.extend described_class
     shoelaces
@@ -22,8 +22,6 @@ shared_examples "A WhiteShoes Shoes::App" do
 
   describe "gui_init" do
     it "should leave a reference to the framework object for further operations" do
-      subject.should respond_to(:gui_container)
-      subject.should respond_to(:gui_container=)
       subject.should_receive(:gui_container=).with(anything)
       subject.gui_init
     end

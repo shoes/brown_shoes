@@ -1,43 +1,32 @@
-require 'shoes/layout'
+require 'facets/hash'
 
 module Shoes
-class Flow < Layout
-  import java.awt.BorderLayout
-  import java.awt.Dimension
-  import java.awt.FlowLayout
-  import javax.swing.JPanel
-  import javax.swing.BoxLayout
+  class Flow
 
-  import javax.swing.border.EmptyBorder
-
-  attr_accessor :parent_container, :container
-
-  def initialize(parent_container, opts={}, &blk)
-    opts.stringify_keys!
-    @parent_container = parent_container
-    @container = JPanel.new()
-    #layout = BoxLayout.new(@container, BoxLayout::LINE_AXIS)
-    layout = FlowLayout.new
-    layout.alignment = FlowLayout::LEFT
-
-    @container.set_layout(layout)
-    #debugger
-    unless parent_container.is_a? BorderLayout
-    if(opts['height'] && opts['width'])
-      #@container.set_preferred_size(Dimension.new(opts['width'], opts['height']))
-    end
-    end
+    include Shoes::ElementMethods
     
-    if margin = opts['margin']
-      #@container.border = EmptyBorder.new(margin, margin, margin, margin)
-      #@container.border = javax.swing.border.LineBorder.new(java.awt.Color::RED, 2, true)
-      @container.setBackground(java.awt.Color::PINK)
+    attr_accessor :parent_container, :parent_gui_container, :gui_container
+    attr_accessor :blk
+    attr_accessor :width, :height, :margin
+
+
+    def initialize(parent_container, parent_gui_container, opts={}, blk = nil)
+      self.parent_container = parent_container
+      self.parent_gui_container = parent_gui_container
+      opts.stringify_keys!
+
+      self.width = opts['width']
+      self.height = opts['height']
+      self.margin = opts['margin']
+
+      self.blk = blk
+
+      gui_flow_init
+
+      instance_eval &blk unless blk.nil?
+
+      gui_flow_add_to_parent
+
     end
-
-    instance_eval &blk if block_given?
-    parent_container.add(container, BorderLayout::CENTER)
-
-    super
   end
-end
 end

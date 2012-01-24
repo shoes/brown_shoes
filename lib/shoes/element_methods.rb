@@ -13,12 +13,12 @@ module Shoes
     #end
 
     def flow(opts = {}, &blk)
-      swt_flow = Shoes::Flow.new(container, opts, &blk)
+      swt_flow = Shoes::Flow.new(self, self.gui_container, opts, blk)
     end
 
 
     def button(text, opts={}, &blk)
-      button = Shoes::Button.new(container, text, opts, &blk)
+      button = Shoes::Button.new(gui_container, text, opts, &blk)
       #@elements[button.to_s] = button
       #button
     end

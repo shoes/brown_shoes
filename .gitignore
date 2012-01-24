@@ -37,3 +37,4 @@ deps
 dist
 pkg
 *.app
+docs-*

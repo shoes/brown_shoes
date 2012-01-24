@@ -8,7 +8,8 @@ gem 'swt'
 
 group :development do
   gem "ruby-debug"
-  #gem "guard"
+  gem "guard"
+  gem "guard-rspec"
   #gem "spork"
 
   #gem 'yard'

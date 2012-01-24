@@ -10,7 +10,7 @@ module SwtShoes
   module App
 
     def gui_init
-      self.gui_container = container = Swt::Widgets::Shell.new($display, Swt::SWT::CLOSE)
+      self.gui_container = container = Swt::Widgets::Shell.new(Swt.display, Swt::SWT::CLOSE)
 
       opts = self.opts
 
@@ -22,19 +22,19 @@ module SwtShoes
 
 
     def gui_open
-      container.open
+      self.gui_container.open
 
       Swt.event_loop { Swt.display.isDisposed }
 
-      logger.debug "Swt.display disposed... exiting Shoes::App.new"
+      Shoes.logger.debug "Swt.display disposed... exiting Shoes::App.new"
     end
 
     private
     def main_window_on_close
       lambda {
-        logger.debug "main_window on_close block begin... disposing Swt.display"
+        Shoes.logger.debug "main_window on_close block begin... disposing Swt.display"
         Swt.display.dispose
-        logger.debug "Swt.display disposed"
+        Shoes.logger.debug "Swt.display disposed"
       }
     end
   end

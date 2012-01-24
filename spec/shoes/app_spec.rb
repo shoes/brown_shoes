@@ -11,7 +11,9 @@ describe Shoes::App do
       args = {:args => true}
       Shoes::App.any_instance.stub(:flow)
       app = Shoes::App.new args, &input_blk
-      app.opts.should == args
+      app.should respond_to :width
+      app.should respond_to :height
+      app.should respond_to :title
       app.blk.should == input_blk
     end
 

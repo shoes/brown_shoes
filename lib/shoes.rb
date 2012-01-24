@@ -6,8 +6,13 @@ require 'facets/hash'
 require 'lib/log4j/log4j-1.2.16.jar'
 require 'log4jruby'
 require 'log4jruby/logger_for_class'
-logger = Log4jruby::Logger.get('test', :tracing => true, :level => :debug )
-logger.debug("Shoooes!")
+
+module Shoes
+  attr_accessor :logger
+
+  @logger = Log4jruby::Logger.get('test', :tracing => true, :level => :debug)
+  @logger.debug("Shoooes!")
+end
 
 require 'shoes/app'
 #require 'shoes/native'
@@ -18,7 +23,7 @@ require 'shoes/app'
 #require 'shoes/layout'
 #require 'shoes/button'
 #require 'shoes/stack'
-#require 'shoes/flow'
+require 'shoes/flow'
 #require 'shoes/edit_line'
 #require 'shoes/edit_box'
 #require 'shoes/check'

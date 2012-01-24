@@ -1,41 +1,45 @@
-#require 'shoes/framework_adapters/swt_shoes/layout'
-
 module SwtShoes
 # flow takes these options
 #   :margin - integer - add this many pixels to all 4 sides of the layout
 
-  class Flow < Layout
+  module Flow
 
-    # container - holds the widgets and controls painting
-    # layout - directs the container on _where_ to place widgets
-    attr_reader :container, :layout
-
-    def initialize composite_parent, opts = {}, &blk
-      @container = Swt::Widgets::Composite.new(composite_parent, Swt::SWT::NONE)
+    def gui_flow_init
+      self.gui_container = container = Swt::Widgets::Composite.new(self.parent_gui_container, Swt::SWT::NONE)
 
       # RowLayout is horizontal by default, wrapping by default
-      @layout = Swt::Layout::RowLayout.new
+      layout = Swt::Layout::RowLayout.new
 
       # set the margins
-      margin(opts[:margin]) if opts[:margin]
+      set_margin(layout)
 
-      if opts['width'] && opts['height']
-        @container.setSize(opts['width'], opts['height'])
+      if self.width && self.height
+        container.setSize(self.width, self.height)
       end
 
-      @container.setLayout(@layout)
+      container.setLayout(layout)
+    end
 
-      instance_eval &blk if block_given?
-
-      @container.pack
+    def gui_flow_add_to_parent
+      #self.parent_gui_container.add(self.gui_container)
     end
 
     # Add this many pixels to margins on layout
-    def margin(margin_pixels)
-      @layout.marginTop = margin_pixels
-      @layout.marginRight = margin_pixels
-      @layout.marginBottom = margin_pixels
-      @layout.marginLeft = margin_pixels
+    def set_margin(layout)
+      if margin_pixels = self.margin
+        layout.marginTop = margin_pixels
+        layout.marginRight = margin_pixels
+        layout.marginBottom = margin_pixels
+        layout.marginLeft = margin_pixels
+      end
     end
   end
 end
+
+
+module Shoes
+  class Flow
+    include SwtShoes::Flow
+  end
+end
+

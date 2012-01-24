@@ -12,7 +12,9 @@ module WhiteShoes
   end
 end
 
-class Shoes::App
-  include WhiteShoes::App
+module Shoes
+  class App
+    include WhiteShoes::App
+  end
 end
 
