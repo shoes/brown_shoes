@@ -1,54 +1,84 @@
 require 'rubygems'
 require 'rake'
 require 'rspec'
+require 'facets/hash'
+
+require 'jruby'
+JRuby.runtime.instance_config.runRubyInProcess = false
 
 # thanks Dan Lucraft!
 def jruby_run(cmd, swt = false)
   opts = "-J-XstartOnFirstThread" if swt && Config::CONFIG["host_os"] =~ /darwin/
-  sh("jruby --debug --1.9 #{opts} -S #{cmd}; echo 'done'")
+
+  # see https://github.com/jruby/jruby/wiki/FAQs
+  # "How can I increase the heap/memory size when launching a sub-JRuby?"
+  sh("jruby --debug --1.9 #{opts} -S #{cmd}")
 end
 
 def rspec(options = "")
   #files = Dir['plugins/*/spec/*/*_spec.rb'] + Dir['plugins/*/spec/*/*/*_spec.rb'] + Dir['plugins/*/spec/*/*/*/*_spec.rb']
   #rspec_opts = "#{options} -c #{files.join(" ")}"
-  rspec_opts = "-c #{options}"
-  "./bin/rspec #{rspec_opts}"
+  rspec_opts = "  #{options}"
+  "./bin/rspec --tty #{rspec_opts}"
+end
+
+# run rspec in separate Jruby JVM
+# options :
+#   :swt - true/false(default)  When True, will run Jruby with SWT-required -X-startOnFirstThread
+#   :rspec - string  Options to pass to Rspec commandline.
+#   
+def jruby_rspec(cmd, options = {})
+  options.symbolize_keys!
+  swt = options.delete(:swt)
+  rspec_opts = options.delete(:rspec)
+
+  out = jruby_run(rspec(rspec_opts), swt)
+  result = out.split("\n").last
+  examples_failures = result.match /\d* examples, \d* failures/
+  
+  return { :examples => examples_failures[1], :failures => examples_failures[2] }
 end
 
 
-desc "Run the specs with JUnit output for the Hudson reporter"
-task :specs do
-  rspec_opts = { :spec => ["/swing_shoes/*.rb"] }
-  jruby_run(rspec(rspec_opts))
-end
+desc "Run All Specs"
+task :spec => "spec:all"
 
-
+desc "Run All Specs"
 task :default => ["spec:all"]
 
 desc "Run Specs on Shoes + All Frameworks"
-task "spec:all" do
+task "spec:all" => [ "spec:shoes", "spec:swt", "spec:swing", "spec:white" ] 
+
+desc "Specs for WhiteShoes Framework"
+task "spec:white" do
+
+  rspec_cmd = rspec("spec/white_shoes/*_spec.rb")
+  jruby_run(rspec_cmd )
+
+end
+
+desc "Specs for Swing Framework"
+task "spec:swing" do
+
+  rspec_cmd = rspec("spec/swing_shoes")
+  jruby_run(rspec_cmd )
 
 end
 
 desc "Specs for SWT Framework"
 task "spec:swt" do
-  ruby %{--1.9 --debug -J-XstartOnFirstThread} do
 
-    ARGV = ["spec/swt_shoes"]
-    require 'rubygems'
+  rspec_cmd = rspec("spec/swt_shoes")
+  jruby_run(rspec_cmd , swt=true)
 
-    version = ">= 0"
-
-    #if ARGV.first =~ /^_(.*)_$/ and Gem::Version.correct? $1 then
-    #  version = $1
-    #  ARGV.shift
-    #end
-
-    gem 'rspec-core', version
-    load Gem.bin_path('rspec-core', 'rspec', version)
-
-  end
 end
+
+desc "Specs for base Shoes libraries"
+task "spec:shoes" do
+  rspec_cmd = rspec("spec/shoes")
+  jruby_run(rspec_cmd)
+end
+
 #<<<<<<< HEAD
 #require 'rake/clean'
 ## require_relative 'platform/skel'

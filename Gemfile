@@ -15,10 +15,11 @@ group :development do
   #gem 'yard'
 
   unless Config::CONFIG['host_os']
-    ## Dependencies for Rocco.
-    ## Really... All Three Markdown gems?!
     # A Jruby compatible gem for 'pygmentize'
     gem "albino"
+
+    ## Dependencies for Rocco.
+    ## Really... All Three Markdown gems?!
     #gem "bluecloth"
     gem "redcarpet"
     #gem "rdiscount"

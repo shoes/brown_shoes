@@ -7,7 +7,6 @@ describe SwingShoes::App do
 
 
   after :each do
-    debugger
     subject
   end
 
