@@ -75,25 +75,30 @@ namespace :spec do
   desc "Specs for WhiteShoes Framework 
   Limit the examples to specific :modules : see spec:all "
   task "white", [:module] do |t, args|
-    jruby_rspec("spec/white_shoes/*_spec.rb", args)
+    argh = args.to_hash
+    jruby_rspec("spec/white_shoes/*_spec.rb", argh)
   end
 
   desc "Specs for Swing Framework 
   Limit the examples to specific :modules : see spec:all "
   task "swing", [:module] do |t, args|
-    jruby_rspec("spec/swing_shoes/*_spec.rb", args)
+    argh = args.to_hash
+    jruby_rspec("spec/swing_shoes/*_spec.rb", argh)
   end
 
   desc "Specs for SWT Framework 
   Limit the examples to specific :modules : "
   task "swt", [:module] do |t, args|
-    jruby_rspec("spec/swt_shoes/*_spec.rb", args)
+    argh = args.to_hash
+    argh[:swt] = true
+    jruby_rspec("spec/swt_shoes/*_spec.rb", argh)
   end
 
   desc "Specs for base Shoes libraries 
   Limit the examples to specific :modules : "
   task "shoes", [:module] do |t, args|
-    jruby_rspec("spec/shoes/*_spec.rb", args)
+    argh = args.to_hash
+    jruby_rspec("spec/shoes/*_spec.rb", argh)
   end
 
 end
