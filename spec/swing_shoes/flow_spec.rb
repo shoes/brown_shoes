@@ -13,7 +13,6 @@ describe SwingShoes::Flow do
   let(:stub_gui_parent) { JPanel.new }
   let(:shoelace) {
     shoelace = FlowShoeLaces.new
-    shoelace.extend described_class
     shoelace.parent_gui_container = stub_gui_parent
     shoelace
   }
