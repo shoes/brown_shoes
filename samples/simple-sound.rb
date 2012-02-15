@@ -1,17 +1,30 @@
 Shoes.app do
-  flow :margin => 12 do
-    # Set up three buttons
-    button "Stop" do
-      @anim.stop
-    end
-    @two = button "Watch Me!"
-    button "Start" do
-      @anim.start
-    end
-    # Bounce the second button
-    #@anim = animate do |frame|
-      #logger.debug "frame #{frame}"
-      #@two.displace(0, (Math.sin(frame) * 30).to_i)
-    #end
+
+  boing = sound("./sounds/61847__simon-rue__boink-v3.wav")
+  fog_horn = sound("./sounds/145622__andybrannan__train-fog-horn-long-wyomming.aiff")
+  explosion = sound("./sounds/102719__sarge4267__explosion.mp3")
+  shields = sound("./sounds/46492__phreaksaccount__shields1.ogg")
+
+  # Set up three buttons
+  button "Boing WAV (740ms)" do
+    puts "Boing clicked"
+    boing.play
   end
+
+  @two = button "Fog Horn AIFF (18.667s)" do
+    puts "Fog Horn clicked"
+    fog_horn.play
+  end
+
+  button "Explosion MP3 (4.800s)" do
+    puts "Explosion clicked"
+    explosion.play
+  end
+
+  button "Shields UP! OGG (2.473s)" do
+    puts "Shields clicked"
+    shields.play
+  end
+
+
 end
