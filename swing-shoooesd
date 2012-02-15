@@ -4,10 +4,8 @@ require 'ruby-debug'
 
 $:<< "lib"
 
-require "java"
-
-ENV['log_level'] = 'debug'
-
 require 'shoes'
+
+require 'swing_shoes'
 
 require ARGV[0]

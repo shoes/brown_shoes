@@ -31,13 +31,10 @@ module Shoes
       self.title = opts['title']
       
       self.opts = opts
-      self.blk = blk
 
       gui_init
 
-      flow do
-        instance_eval &blk if blk
-      end
+      instance_eval &blk if blk
 
       gui_open
 

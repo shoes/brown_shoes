@@ -11,6 +11,8 @@ module SwtShoes
 
     def gui_init
       self.gui_container = container = Swt::Widgets::Shell.new(Swt.display, Swt::SWT::CLOSE)
+      layout = Swt::Layout::RowLayout.new
+      container.setLayout(layout)
 
       opts = self.opts
 

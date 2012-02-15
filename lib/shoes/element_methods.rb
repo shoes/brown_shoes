@@ -18,13 +18,18 @@ module Shoes
 
 
     def button(text, opts={}, &blk)
-      button = Shoes::Button.new(gui_container, text, opts, &blk)
+      button = Shoes::Button.new(self.gui_container, text, opts, blk)
       #@elements[button.to_s] = button
       #button
     end
 
     def animate(fps = 10, &blk)
       anim = Shoes::Animation.new(self, fps, &blk)
+    end
+
+    # similar controls as Shoes::Video (#video)
+    def sound(soundfile, opts = {}, &blk)
+      playable_sound = Shoes::Sound.new(gui_container, soundfile, opts, &blk)
     end
 
     #

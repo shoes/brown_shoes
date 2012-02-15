@@ -38,7 +38,6 @@ module SwingShoes
 
     def gui_flow_add_to_parent
       self.parent_gui_container.add(self.gui_container, BorderLayout::CENTER)
-      self.gui_container.set_visible(true)
     end
   end
 end

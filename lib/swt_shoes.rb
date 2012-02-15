@@ -12,6 +12,7 @@ require 'swt_shoes/app'
 require 'swt_shoes/layout'
 #require 'swt_shoes/window'
 require 'swt_shoes/flow'
+require 'swt_shoes/button'
 
 module SwtShoes
   module Shoes

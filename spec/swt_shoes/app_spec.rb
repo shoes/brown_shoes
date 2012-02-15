@@ -4,10 +4,11 @@ require "swt_shoes/spec_helper"
 describe SwtShoes::App do
 
   describe "WhiteShoes requirements" do
-    let(:shell) { mock(:swt_shell,
-                       :setSize => true, :setText => true, :addListener => true) }
+    let(:mock_shell) { mock(:swt_shell,
+                       :setSize => true, :setText => true,
+                       :addListener => true, :setLayout => true) }
     before do
-      Swt::Widgets::Shell.stub(:new) { shell }
+      Swt::Widgets::Shell.stub(:new) { mock_shell }
     end
 
     it_behaves_like "A WhiteShoes Shoes::App"
