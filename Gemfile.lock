@@ -11,6 +11,7 @@ GEM
       term-ansicolor (>= 1.0.6)
     diff-lcs (1.1.3)
     facets (2.9.2)
+    ffi (1.0.11)
     ffi (1.0.11-java)
     gherkin (2.5.1)
       json (>= 1.4.6)
@@ -58,6 +59,6 @@ DEPENDENCIES
   guard-rspec
   log4jruby
   rake
-  rspec
+  rspec (~> 2.0)
   ruby-debug
   swt

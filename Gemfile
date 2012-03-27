@@ -32,7 +32,7 @@ group :test do
   end
   gem "gherkin"
   gem "cucumber"
-  gem "rspec"
+  gem "rspec", "~> 2.0"
   gem "rake"
   #gem "shoes-cucumber"
 end
