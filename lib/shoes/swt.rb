@@ -7,15 +7,15 @@ def window(*a, &b)
   Shoes.app(*a, &b)
 end
 
-require 'swt_shoes/element_methods'
-require 'swt_shoes/app'
-require 'swt_shoes/layout'
-#require 'swt_shoes/window'
-require 'swt_shoes/flow'
-require 'swt_shoes/button'
+require 'shoes/swt/element_methods'
+require 'shoes/swt/app'
+require 'shoes/swt/layout'
+#require 'shoes/swt/window'
+require 'shoes/swt/flow'
+require 'shoes/swt/button'
 
-module SwtShoes
-  module Shoes
+module Shoes
+  module Swt
 
 
   include Log4jruby::LoggerForClass

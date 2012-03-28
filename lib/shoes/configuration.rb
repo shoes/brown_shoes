@@ -7,11 +7,22 @@ module Shoes
       attr_accessor :framework
 
       def framework=(value)
-        @framework = value
-        require value
+        # Only SWT works this way right now
+        if value.to_s == 'swt'
+          @framework = value.to_s.downcase
+          require "shoes/#{@framework}"
+        else
+          @framework = value
+          require value
+        end
       end
       def framework_class
-        constant(@framework.camelcase)
+        # Only SWT works this way right now
+        if @framework == 'swt'
+          constant("shoes/#{@framework}".modulize)
+        else
+          constant(@framework.camelcase)
+        end
       end
     end
 

@@ -5,7 +5,7 @@ $:<< "lib"
 
 require 'shoes'
 require 'shoes/configuration'
-Shoes.configuration.framework = 'swt_shoes'
+Shoes.configuration.framework = 'swt'
 
 require ARGV[0]
 

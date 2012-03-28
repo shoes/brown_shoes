@@ -1,14 +1,15 @@
-module SwtShoes
+module Shoes
+module Swt
 # flow takes these options
 #   :margin - integer - add this many pixels to all 4 sides of the layout
 
   module Flow
 
     def gui_flow_init
-      self.gui_container = container = Swt::Widgets::Composite.new(self.parent_gui_container, Swt::SWT::NONE)
+      self.gui_container = container = ::Swt::Widgets::Composite.new(self.parent_gui_container, ::Swt::SWT::NONE)
 
       # RowLayout is horizontal by default, wrapping by default
-      layout = Swt::Layout::RowLayout.new
+      layout = ::Swt::Layout::RowLayout.new
 
       # set the margins
       set_margin(layout)
@@ -35,11 +36,12 @@ module SwtShoes
     end
   end
 end
+end
 
 
 module Shoes
   class Flow
-    include SwtShoes::Flow
+    include Swt::Flow
   end
 end
 

@@ -1,6 +1,7 @@
 #require 'shoes/framework_adapters/swt_shoes/element_methods'
 
-module SwtShoes
+module Shoes
+  module Swt
     class Layout
 
       DEFAULT_WIDTH = 800
@@ -8,18 +9,18 @@ module SwtShoes
       DEFAULT_TITLE = "Shooes!"
 
 
-      include SwtShoes::ElementMethods
+      include Shoes::Swt::ElementMethods
       include Log4jruby::LoggerForClass
 
       # default initializer for calls to
       # super() from descendant classes
       def initialize(composite_parent, opts = {}, &blk)
-        @container = Swt::Widgets::Composite.new(composite_parent, Swt::SWT::NONE || Swt::SWT::BORDER)
+        @container = ::Swt::Widgets::Composite.new(composite_parent, ::Swt::SWT::NONE || ::Swt::SWT::BORDER)
 
         width, height = opts['width'] || DEFAULT_WIDTH, opts['height'] || DEFAULT_HEIGHT
 
         # RowLayout is horizontal by default, wrapping by default
-        @layout = Swt::Layout::RowLayout.new
+        @layout = ::Swt::Layout::RowLayout.new
 
         @layout.type = opts['layout_type'] if opts['layout_type']
 
@@ -60,4 +61,5 @@ module SwtShoes
 
 
     end
+  end
 end

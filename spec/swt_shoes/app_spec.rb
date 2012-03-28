@@ -1,14 +1,14 @@
 require "spec_helper"
 require "swt_shoes/spec_helper"
 
-describe SwtShoes::App do
+describe Shoes::Swt::App do
 
   describe "WhiteShoes requirements" do
     let(:mock_shell) { mock(:swt_shell,
                        :setSize => true, :setText => true,
                        :addListener => true, :setLayout => true) }
     before do
-      Swt::Widgets::Shell.stub(:new) { mock_shell }
+      ::Swt::Widgets::Shell.stub(:new) { mock_shell }
     end
 
     it_behaves_like "A WhiteShoes Shoes::App"
