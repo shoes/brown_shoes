@@ -8,7 +8,7 @@ shared_examples_for "A Common Element" do
     #let(:flow)  { Shoes::Flow.new(shell) }
     #let(:container) { flow.container }
 
-    subject {   described_class.new(container, "text") }
+    #subject {   described_class.new(container, "text") }
 
     it { should respond_to :top }
     its(:top) { should_not be_nil }
