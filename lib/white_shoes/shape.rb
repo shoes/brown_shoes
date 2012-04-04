@@ -7,7 +7,6 @@ module WhiteShoes
   #
   # @x          - the current x-value
   # @y          - the current y-value
-  # gui_element - the gui framework represenation of this object
   #
   module Shape
     attr_accessor :gui_container

@@ -5,13 +5,14 @@ module SwtShoes
   #
   # @x          - the current x-value
   # @y          - the current y-value
-  # @gui_element - the gui framework represenation of this object
+  # @opts       - options
   #
   module Shape
     attr_reader :gui_container
     attr_reader :gui_element
 
     def gui_init
+      @gui_container = @opts['gui_container']
       @gui_element = Swt::Path.new(Swt::Widgets::Display.get_current)
       @gui_element.move_to(@x, @y)
       @gui_container.add_paint_listener(lambda do |e|
@@ -19,7 +20,6 @@ module SwtShoes
         gc = e.gc
         gc.set_antialias Swt::SWT::ON
         gc.set_line_width 1
-        Shoes.logger.debug "gui_element in callback: #{gui_element}"
         gc.draw_path(gui_element)
       end)
     end

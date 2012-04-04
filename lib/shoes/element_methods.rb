@@ -61,8 +61,10 @@ module Shoes
     # Draws a line from (x1,y1) to (x2,y2)
     # TODO: Probably don't need to use the full-on Swt::Path for this
     def line(x1, y1, x2, y2)
+      opts = {x: x1, y: y1}
+      opts[:gui_container] = self.gui_container
       path = lambda { line_to(x2, y2) }
-      Shoes::Shape.new(self.gui_container, {x: x1, y: y1}, path)
+      Shoes::Shape.new(opts, path)
     end
   end
 end

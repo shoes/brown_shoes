@@ -8,15 +8,21 @@ module Shoes
     attr_reader :blk
     attr_reader :x, :y
 
-    def initialize(gui_container, opts={}, blk = nil)
-      @gui_container = gui_container
-      opts.stringify_keys!
+    # Creates a new Shoes::Shape
+    #
+    # Implementation frameworks should pass in any required arguments
+    # through the +opts+ hash.
+    #
+    # opts['x'] - the initial x-position for drawing
+    # opts['y'] - the initial y-position for drawing
+    def initialize(opts={}, blk = nil)
+      @opts = opts.stringify_keys
 
       @blk = blk
 
       # Initialize current point
-      @left = @x = opts['x'] || 0
-      @top = @y = opts['y'] || 0
+      @left = @x = @opts['x'] || 0
+      @top = @y = @opts['y'] || 0
       @width = @height = 0
 
       gui_init

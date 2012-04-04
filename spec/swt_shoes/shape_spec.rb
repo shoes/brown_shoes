@@ -8,13 +8,15 @@ describe SwtShoes::Shape do
     attr_reader :gui_element
     attr_reader :blk
     attr_reader :width, :height
+    def initialize(opts = {}, blk = nil )
+      @opts = opts.stringify_keys
+      gui_init
+    end
   end
 
-  let(:gui_container) { Swt::Widgets::Shell.new }
+  let(:gui_container) { double('gui_container', add_paint_listener: "Paint Listener") }
   let(:shoelaces) {
-    ShapeShoeLaces.new.tap do |s|
-      s.gui_container = gui_container
-    end
+    ShapeShoeLaces.new gui_container: gui_container
   }
 
   subject { shoelaces }
@@ -25,12 +27,12 @@ describe SwtShoes::Shape do
     subject
   end
 
-  it "has proper gui container" do
-    subject.gui_container.should be_instance_of(Swt::Widgets::Shell)
+  it "has gui container" do
+    subject.gui_container.should_not be_nil
   end
 
   describe "gui_init" do
-    before(:each) { subject.gui_init }
+
     its(:gui_element) { should be_instance_of(Swt::Path) }
   end
 end
