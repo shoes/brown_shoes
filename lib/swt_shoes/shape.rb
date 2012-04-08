@@ -11,17 +11,40 @@ module SwtShoes
     attr_reader :gui_container
     attr_reader :gui_element
 
+    # The initialization hook for SwtShoes.
+    #
+    # Swt calls to Shoes::Shape#new should include in the style hash
+    # a :gui key that contains Swt-specific settings.
+    #
+    # Example:
+    #
+    #   args[:top] = 100
+    #   args[:width] = 80
+    #   args[:gui] = {
+    #     container: self.gui_container,
+    #     paint_callback: lambda do |event, shape|
+    #       gc = event.gc
+    #       gc.set_antialias Swt::SWT::ON
+    #       gc.set_line_width 1
+    #       gc.draw_oval(shape.left, shape.top, shape.width, shape.height)
+    #     end
+    #   }
+    #
+    #   This hook method is only interested in the `:gui` values.
+    #
+    #   Note in particular the `:paint_callback`. It has 2 parameters. The
+    #   first is the Swt event that will trigger the callback. The second is
+    #   this shape.
     def gui_init
-      @gui_container = @opts['gui_container']
-      @gui_element = Swt::Path.new(Swt::Widgets::Display.get_current)
-      @gui_element.move_to(@x, @y)
-      @gui_container.add_paint_listener(lambda do |e|
-        #return if hidden?
-        gc = e.gc
-        gc.set_antialias Swt::SWT::ON
-        gc.set_line_width 1
-        gc.draw_path(gui_element)
-      end)
+      @gui_container = @opts[:gui][:container]
+      if @opts[:gui][:element]
+        @gui_element = @opts[:gui][:element]
+        @gui_element.move_to(@x, @y)
+      end
+      paint_callback = lambda do |e|
+        @opts[:gui][:paint_callback].call(e, self)
+      end
+      @gui_container.add_paint_listener(paint_callback)
     end
 
     def line_to(x, y)
