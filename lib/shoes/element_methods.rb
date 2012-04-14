@@ -95,5 +95,10 @@ module Shoes
       end
       Shoes::Shape.new args
     end
+
+    # Creates a new Shoes::Color object
+    def rgb(red, green, blue, alpha = Shoes::Color::OPAQUE)
+      Shoes::Color.new(red, green, blue, alpha)
+    end
   end
 end

@@ -1,6 +1,9 @@
 module Shoes
   class Color
     include Comparable
+    OPAQUE = 255
+    TRANSPARENT = 0
+
 
     def initialize(red, green, blue, alpha=255)
       to_rgb = lambda { |v| v.is_a?(Fixnum) ? v : (255 * v).round }

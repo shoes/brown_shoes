@@ -114,6 +114,18 @@ describe "Basic Element Methods" do
       end
     end
   end
+
+  describe "rgb" do
+    subject { ElementMethodsShoeLaces.new.rgb(100, 149, 237) } # cornflower
+
+    its(:class) { should eq(Shoes::Color) }
+    its(:red) { should eq(100) }
+    its(:green) { should eq(149) }
+    its(:blue) { should eq(237) }
+    its(:alpha) { should eq(Shoes::Color::OPAQUE) }
+  end
+
+
   #it "Should return 0 for left for button_one" do
   #  @gui.elements['button_one'].left.should be 0
   #end
