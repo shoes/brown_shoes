@@ -123,6 +123,20 @@ describe Shoes::Color do
       end
     end
 
+    describe "negative values" do
+      specify "-1 becomes 255" do
+        Shoes::Color.new(-1, -1, -1, -1).should eq(Shoes::Color.new(255, 255, 255))
+      end
+
+      specify "256 and neighbors" do
+        Shoes::Color.new(-256, -255, -257).should eq(Shoes::Color.new(0, 1, 255))
+      end
+
+      specify "float behaviour" do
+        Shoes::Color.new(-1.0, -0.5, -0.0).should eq(Shoes::Color.new(0, 128, 1))
+      end
+    end
+
     describe "edge cases" do
       specify "0.0 becomes 1" do
         Shoes::Color.new(0.0, 0.0, 0.0).should eq(Shoes::Color.new(1, 1, 1))
@@ -130,7 +144,6 @@ describe Shoes::Color do
 
       specify "1.0 becomes 0" do
         Shoes::Color.new(1.0, 1.0, 1.0).should eq(Shoes::Color.new(0, 0, 0))
-
       end
     end
   end
