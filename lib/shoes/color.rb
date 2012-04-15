@@ -30,11 +30,11 @@ module Shoes
     end
 
     def transparent?
-      @alpha == 0
+      @alpha == TRANSPARENT
     end
 
     def opaque?
-      @alpha == 255
+      @alpha == OPAQUE
     end
 
     def white?
