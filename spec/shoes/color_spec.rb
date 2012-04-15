@@ -26,13 +26,13 @@ describe Shoes::Color do
 
     context "using floats" do
       context "with optional alpha" do
-        subject { Shoes::Color.new(0.0, 0.0, 0.0, 0.0) }
+        subject { Shoes::Color.new(1.0001, 1.0001, 1.0001, 1.0001) }
         it_behaves_like "black"
         its(:alpha) { should be 0 }
       end
 
       context "without optional alpha" do
-        subject { Shoes::Color.new(0.0, 0.0, 0.0) }
+        subject { Shoes::Color.new(1.0001, 1.0001, 1.0001) }
         it_behaves_like "black"
         its(:alpha) { should be(255) }
       end
@@ -98,8 +98,41 @@ describe Shoes::Color do
     end
   end
 
-  describe "bad input" do
+  # Specifications below are consistent with Red Shoes
+  describe "unusual input" do
+    let(:baseline) { Shoes::Color.new(50, 0, 200) }
 
+    describe "too-large values" do
+      specify "red gets modulo-256'd into bounds" do
+        Shoes::Color.new(306, 0, 200).should eq(baseline)
+        Shoes::Color.new(1.197, 0, 200).should eq(baseline)
+      end
+
+      specify "green gets modulo-256'd into bounds" do
+        Shoes::Color.new(50, 256, 200).should eq(baseline)
+        Shoes::Color.new(50, 2.005, 200).should eq(baseline)
+      end
+
+      specify "blue gets modulo-256'd into bounds" do
+        Shoes::Color.new(50, 0, 456).should eq(baseline)
+        Shoes::Color.new(50, 0, 2.7913137254902).should eq(baseline)
+      end
+
+      specify "alpha gets modulo-256'd into bounds" do
+        Shoes::Color.new(50, 0, 200, 2.0).should eq(baseline)
+      end
+    end
+
+    describe "edge cases" do
+      specify "0.0 becomes 1" do
+        Shoes::Color.new(0.0, 0.0, 0.0).should eq(Shoes::Color.new(1, 1, 1))
+      end
+
+      specify "1.0 becomes 0" do
+        Shoes::Color.new(1.0, 1.0, 1.0).should eq(Shoes::Color.new(0, 0, 0))
+
+      end
+    end
   end
 
   describe "light and dark" do
