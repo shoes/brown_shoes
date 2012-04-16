@@ -5,7 +5,11 @@ require 'shoes/configuration'
 describe "Basic Element Methods" do
   class ElementMethodsShoeLaces
     attr_accessor :gui_container
+    attr_reader :style
     include Shoes::ElementMethods
+    def initialize
+      @style = {}
+    end
   end
 
   Shoes.configuration.framework = 'white_shoes'
@@ -150,8 +154,11 @@ describe "Basic Element Methods" do
     it_behaves_like "object with stroke"
 
     specify "applies to subsequently created objects" do
-      pending "oval"
       app.stroke Shoes::COLORS[:tomato]
+      Shoes::Shape.should_receive(:new).with do |*args|
+        style = args.pop
+        style[:stroke].should eq(Shoes::COLORS[:tomato])
+      end
       app.oval(10, 10, 100, 100)#.style[:stroke].should eq(Shoes::COLORS[:tomato])
     end
   end
