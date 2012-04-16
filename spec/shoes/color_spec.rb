@@ -235,5 +235,6 @@ describe "Shoes built-in colors" do
 
   its(:papayawhip) { should eq(Shoes::Color.new(255, 239, 213)) }
   its(:aquamarine) { should eq(Shoes::Color.new(127, 255, 212)) }
+  its(:tomato) { should eq(Shoes::Color.new(255, 99, 71)) }
 end
 

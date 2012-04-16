@@ -5,7 +5,6 @@ module Shoes
     TRANSPARENT = 0
 
     def initialize(red, green, blue, alpha = OPAQUE)
-#(_*255)+1).truncate.modulo(256)
       to_rgb = lambda { |v| v.is_a?(Fixnum) ? v.modulo(256) : ((255 * v).abs + 1).truncate.modulo(256) }
       @red = to_rgb.call(red)
       @green = to_rgb.call(green)
