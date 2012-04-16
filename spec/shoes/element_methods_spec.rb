@@ -1,4 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require_relative 'spec_helper'
+require 'shoes/element_methods'
+require 'shoes/configuration'
 
 describe "Basic Element Methods" do
   class ElementMethodsShoeLaces
@@ -116,13 +118,21 @@ describe "Basic Element Methods" do
   end
 
   describe "rgb" do
-    subject { ElementMethodsShoeLaces.new.rgb(100, 149, 237) } # cornflower
+    let(:red) { 100 }
+    let(:green) { 149 }
+    let(:blue) { 237 }
+    let(:alpha) { 133 } # cornflower
+    let(:app) { ElementMethodsShoeLaces.new }
 
-    its(:class) { should eq(Shoes::Color) }
-    its(:red) { should eq(100) }
-    its(:green) { should eq(149) }
-    its(:blue) { should eq(237) }
-    its(:alpha) { should eq(Shoes::Color::OPAQUE) }
+    it "sends args to Shoes::Color" do
+      Shoes::Color.should_receive(:new).with(red, green, blue, alpha)
+      app.rgb(red, green, blue, alpha)
+    end
+
+    it "defaults to opaque" do
+      Shoes::Color.should_receive(:new).with(red, green, blue, Shoes::Color::OPAQUE)
+      app.rgb(red, green, blue)
+    end
   end
 
 

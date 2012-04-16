@@ -1,8 +1,10 @@
-#require 'animation'
-
-#require 'native'
-#require 'button'
-#require 'flow'
+# FIXME: shoes/animation and shoes/sound require java. They shouldn't.
+#require 'shoes/animation'
+#require 'shoes/sound'
+require 'shoes/button'
+require 'shoes/color'
+require 'shoes/flow'
+require 'shoes/shape'
 
 module Shoes
   module ElementMethods
