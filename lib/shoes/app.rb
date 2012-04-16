@@ -32,12 +32,18 @@ module Shoes
       
       self.opts = opts
 
+      @style = {}
+
       gui_init
 
       instance_eval &blk if blk
 
       gui_open
 
+    end
+
+    def style(new_styles = {})
+      @style.merge! new_styles
     end
 
     #import javax.swing.JPanel
