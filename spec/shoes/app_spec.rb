@@ -36,7 +36,18 @@ describe Shoes::App do
       app.title.should == "Shoes::App Spec"
 
     end
+
+    it "initializes style hash" do
+      style = Shoes::App.new.style
+      style.class.should eq(Hash)
+      style.should be_empty
+    end
   end
 
+  describe "style" do
+    subject { Shoes::App.new }
+    it_behaves_like "object with style"
+    it_behaves_like "object with stroke"
+  end
 
 end

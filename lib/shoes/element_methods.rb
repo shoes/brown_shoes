@@ -7,6 +7,13 @@ require 'shoes/flow'
 require 'shoes/shape'
 
 module Shoes
+  # Methods for creating and manipulating Shoes elements
+  #
+  # Requirements
+  #
+  # Including classes must provide:
+  #
+  # @style - a hash of styles
   module ElementMethods
 
     #def stack(opts={}, &blk)
@@ -101,6 +108,15 @@ module Shoes
     # Creates a new Shoes::Color object
     def rgb(red, green, blue, alpha = Shoes::Color::OPAQUE)
       Shoes::Color.new(red, green, blue, alpha)
+    end
+
+    # Sets the current stroke color
+    #
+    # Arguments
+    #
+    # color - a Shoes::Color
+    def stroke(color)
+      @style[:stroke] = color
     end
   end
 end

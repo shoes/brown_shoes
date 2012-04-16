@@ -135,6 +135,26 @@ describe "Basic Element Methods" do
     end
   end
 
+  describe "stroke" do
+    require "shoes/color" # Need the colors!
+    let(:app) {
+      Object.new.tap do |app|
+        app.extend Shoes::ElementMethods
+        app.singleton_class.class_eval "attr_accessor :style"
+        app.style = {}
+      end
+    }
+
+    subject { app }
+
+    it_behaves_like "object with stroke"
+
+    specify "applies to subsequently created objects" do
+      pending "oval"
+      app.stroke Shoes::COLORS[:tomato]
+      app.oval(10, 10, 100, 100)#.style[:stroke].should eq(Shoes::COLORS[:tomato])
+    end
+  end
 
   #it "Should return 0 for left for button_one" do
   #  @gui.elements['button_one'].left.should be 0
