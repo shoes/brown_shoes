@@ -19,8 +19,9 @@ module Shoes
     #
     # opts['x'] - the initial x-position for drawing
     # opts['y'] - the initial y-position for drawing
-    def initialize(style={}, blk = nil)
-      @style = style
+    def initialize(opts={}, blk = nil)
+      @gui_opts = opts.delete(:gui) || {}
+      @style = opts
 
       @blk = blk
 
