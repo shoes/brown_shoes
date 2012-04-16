@@ -148,16 +148,23 @@ describe "Basic Element Methods" do
         app.style = {}
       end
     }
+    let(:color) { Shoes::COLORS[:tomato] }
 
-    subject { app }
+    specify "returns a color" do
+      app.stroke(color).class.should eq(Shoes::Color)
+    end
 
-    it_behaves_like "object with stroke"
+    # This works differently on the app than on a normal element
+    specify "sets on receiver" do
+      app.stroke color
+      app.style[:stroke].should eq(color)
+    end
 
     specify "applies to subsequently created objects" do
-      app.stroke Shoes::COLORS[:tomato]
+      app.stroke color
       Shoes::Shape.should_receive(:new).with do |*args|
         style = args.pop
-        style[:stroke].should eq(Shoes::COLORS[:tomato])
+        style[:stroke].should eq(color)
       end
       app.oval(10, 10, 100, 100)#.style[:stroke].should eq(Shoes::COLORS[:tomato])
     end
