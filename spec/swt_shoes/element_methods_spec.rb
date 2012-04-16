@@ -7,6 +7,9 @@ describe "Basic Element Methods" do
     attr_accessor :gui_container
     include Shoes::ElementMethods
     include SwtShoes::ElementMethods
+    def initialize
+      @style = {}
+    end
   end
 
   Shoes.configuration.framework = 'swt_shoes'

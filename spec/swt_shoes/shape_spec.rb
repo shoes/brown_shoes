@@ -9,15 +9,20 @@ describe SwtShoes::Shape do
     attr_reader :blk
     attr_reader :width, :height
     def initialize(opts = {}, blk = nil )
-      @opts = opts
+      @gui_opts = opts.delete(:gui)
+      @style = opts
       gui_init
     end
   end
 
-  let(:gui_container) { double('gui_container', add_paint_listener: "Paint Listener") }
+  let(:gui_container) { double('gui_container') }
   let(:gui_element) { double('gui_element') }
   let(:args_with_element) { {container: gui_container, element: gui_element} }
   let(:args_without_element) { {container: gui_container} }
+
+  before :each do
+    gui_container.should_receive(:add_paint_listener)
+  end
 
   shared_examples_for "Swt::Shape" do
     before :each do
@@ -40,7 +45,7 @@ describe SwtShoes::Shape do
     it_behaves_like "Swt::Shape"
 
     describe "gui_init" do
-      it "should set current point on gui element" do
+      it "sets current point and registers paint listener" do
         gui_element.should_receive(:move_to)
         subject
       end
@@ -55,6 +60,7 @@ describe SwtShoes::Shape do
     describe "gui_init" do
       it "should not set current point on gui element" do
         gui_element.should_not_receive(:move_to)
+        subject
       end
     end
   end
