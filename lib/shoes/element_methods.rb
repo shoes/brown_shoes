@@ -102,6 +102,7 @@ module Shoes
         args[:left] -= args[:width] / 2
         args[:top] -= args[:height] / 2
       end
+      args[:stroke] ||= @style[:stroke]
       Shoes::Shape.new args
     end
 
