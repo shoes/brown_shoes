@@ -1,6 +1,6 @@
-require "spec_helper"
-
+require_relative './spec_helper'
 require 'white_shoes'
+require 'shoes/app'
 
 describe Shoes::App do
 
