@@ -40,13 +40,46 @@ describe Shoes::App do
     it "initializes style hash" do
       style = Shoes::App.new.style
       style.class.should eq(Hash)
-      style.should be_empty
     end
   end
 
+  # This behavior is different from Red Shoes. Red Shoes doesn't expose
+  # the style hash on Shoes::App.
   describe "style" do
     subject { Shoes::App.new }
     it_behaves_like "object with style"
+  end
+
+  describe "strokewidth" do
+    it "defaults to 1" do
+      subject.style[:strokewidth].should eq(1)
+    end
+
+    it "passes default to objects" do
+      subject.line(0, 100, 100, 0).style[:strokewidth].should eq(1)
+    end
+
+    it "passes new values to objects" do
+      subject.strokewidth 10
+      subject.line(0, 100, 100, 0).style[:strokewidth].should eq(10)
+    end
+  end
+
+  describe "stroke" do
+    let(:black) { Shoes::COLORS[:black] }
+    let(:goldenrod) { Shoes::COLORS[:goldenrod] }
+    it "defaults to black" do
+      subject.style[:stroke].should eq(black)
+    end
+
+    it "passes default to objects" do
+      subject.oval(100, 100, 100).style[:stroke].should eq(black)
+    end
+
+    it "passes new value to objects" do
+      subject.stroke goldenrod
+      subject.oval(100, 100, 100).style[:stroke].should eq(goldenrod)
+    end
   end
 
 end

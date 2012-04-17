@@ -52,7 +52,7 @@ module SwtShoes
       #end
       #
       def line(x1, y1, x2, y2, opts={})
-        args = style.merge(opts)
+        args = opts
         args[:gui] = {
           container: self.gui_container,
           element: Swt::Path.new(Shoes.display),
@@ -69,7 +69,6 @@ module SwtShoes
 
       def oval(*opts)
         args = opts.last.class == Hash ? opts.pop : {}
-        args = style.merge(args)
         args[:gui] = {
           container: self.gui_container,
           paint_callback: lambda do |event, shape|
