@@ -1,4 +1,5 @@
 require 'shoes/element_methods'
+require 'shoes/color'
 require 'facets/hash'
 
 def window(*a, &b)
@@ -15,6 +16,7 @@ module Shoes
   class App
 
     DEFAULTS = { 'width' => 800, 'height' => 600, 'title' => "Shoooes!"}
+    DEFAULT_STYLE = { :stroke => Shoes::COLORS[:black], :strokewidth => 1 }
 
     include Shoes::ElementMethods
 
@@ -32,7 +34,7 @@ module Shoes
       
       self.opts = opts
 
-      @style = {}
+      @style = DEFAULT_STYLE
 
       gui_init
 

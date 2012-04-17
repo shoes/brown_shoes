@@ -70,7 +70,7 @@ module Shoes
     # Draws a line from (x1,y1) to (x2,y2)
     # TODO: Probably don't need to use the full-on Swt::Path for this
     def line(x1, y1, x2, y2, opts={})
-      args = opts
+      args = style.merge(opts)
       args[:left], end_x = x1 < x2 ? [x1, x2] : [x2, x1]
       args[:top], end_y = y1 < y2 ? [y1, y2] : [y2, y1]
       path = lambda { line_to(end_x, end_y) }
@@ -94,7 +94,7 @@ module Shoes
         when 3; args[:left], args[:top], args[:radius] = opts
         else args[:left], args[:top], args[:width], args[:height] = opts
       end
-      args = defaults.merge(args)
+      args = defaults.merge(style).merge(args)
       args[:width] = args[:radius] * 2 if args[:width].zero?
       args[:height] = args[:width] if args[:height].zero?
       if args[:center]
