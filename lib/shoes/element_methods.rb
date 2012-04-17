@@ -70,10 +70,9 @@ module Shoes
     # Draws a line from (x1,y1) to (x2,y2)
     # TODO: Probably don't need to use the full-on Swt::Path for this
     def line(x1, y1, x2, y2, opts={})
-      args = {}
+      args = opts
       args[:left], end_x = x1 < x2 ? [x1, x2] : [x2, x1]
       args[:top], end_y = y1 < y2 ? [y1, y2] : [y2, y1]
-      args[:gui] = opts[:gui]
       path = lambda { line_to(end_x, end_y) }
       Shoes::Shape.new(args, path)
     end
@@ -103,6 +102,7 @@ module Shoes
         args[:top] -= args[:height] / 2
       end
       args[:stroke] ||= @style[:stroke]
+      args[:strokewidth] ||= @style[:strokewidth]
       Shoes::Shape.new args
     end
 
@@ -118,6 +118,11 @@ module Shoes
     # color - a Shoes::Color
     def stroke(color)
       @style[:stroke] = color
+    end
+
+    # Sets the stroke width, in pixels
+    def strokewidth(width)
+      @style[:strokewidth] = width
     end
 
     # Adds style, or just returns current style if no argument
