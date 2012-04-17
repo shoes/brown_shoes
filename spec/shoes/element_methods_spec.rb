@@ -141,13 +141,7 @@ describe "Basic Element Methods" do
 
   describe "stroke" do
     require "shoes/color" # Need the colors!
-    let(:app) {
-      Object.new.tap do |app|
-        app.extend Shoes::ElementMethods
-        app.singleton_class.class_eval "attr_accessor :style"
-        app.style = {}
-      end
-    }
+    let(:app) { ElementMethodsShoeLaces.new }
     let(:color) { Shoes::COLORS[:tomato] }
 
     specify "returns a color" do
@@ -166,7 +160,28 @@ describe "Basic Element Methods" do
         style = args.pop
         style[:stroke].should eq(color)
       end
-      app.oval(10, 10, 100, 100)#.style[:stroke].should eq(Shoes::COLORS[:tomato])
+      app.oval(10, 10, 100, 100)
+    end
+  end
+
+  describe "strokewidth" do
+    let(:app) { ElementMethodsShoeLaces.new }
+    specify "returns a number" do
+      app.strokewidth(4).should eq(4)
+    end
+
+    specify "sets on receiver" do
+      app.strokewidth 4
+      app.style[:strokewidth].should eq(4)
+    end
+
+    specify "applies to subsequently created objects" do
+      app.strokewidth 6
+      Shoes::Shape.should_receive(:new).with do |*args|
+        style = args.pop
+        style[:strokewidth].should eq(6)
+      end
+      app.oval(10, 10, 100, 100)
     end
   end
 
