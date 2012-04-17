@@ -42,10 +42,6 @@ module Shoes
 
     end
 
-    def style(new_styles = {})
-      @style.merge! new_styles
-    end
-
     #import javax.swing.JPanel
     #import javax.swing.JFrame
     #import java.awt.Dimension

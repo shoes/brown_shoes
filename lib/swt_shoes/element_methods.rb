@@ -54,7 +54,7 @@ module SwtShoes
       def line(x1, y1, x2, y2, opts={})
         opts[:gui] = {
           container: self.gui_container,
-          element: Swt::Path.new(Swt::Widgets::Display.get_current),
+          element: Swt::Path.new(Shoes.display),
           paint_callback: lambda do |event, shape|
             #return if hidden?
             gc = event.gc
@@ -68,6 +68,7 @@ module SwtShoes
 
       def oval(*opts)
         args = opts.last.class == Hash ? opts.pop : {}
+        args = style.merge(args)
         args[:gui] = {
           container: self.gui_container,
           paint_callback: lambda do |event, shape|
@@ -75,6 +76,7 @@ module SwtShoes
             gc = event.gc
             gc.set_antialias Swt::SWT::ON
             gc.set_line_width 1
+            gc.setForeground(shape.style[:stroke].to_native)
             gc.draw_oval(shape.left, shape.top, shape.width, shape.height)
           end
         }

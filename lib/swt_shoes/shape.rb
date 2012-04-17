@@ -41,10 +41,10 @@ module SwtShoes
         @gui_element = @gui_opts[:element]
         @gui_element.move_to(@x, @y)
       end
-      paint_callback = lambda do |e|
+      @gui_paint_callback = lambda do |e|
         @gui_opts[:paint_callback].call(e, self)
       end
-      @gui_container.add_paint_listener(paint_callback)
+      @gui_container.add_paint_listener(@gui_paint_callback)
     end
 
     def line_to(x, y)
