@@ -5,7 +5,12 @@ module Shoes
     TRANSPARENT = 0
 
     def initialize(red, green, blue, alpha = OPAQUE)
-      to_rgb = lambda { |v| v.is_a?(Fixnum) ? v.modulo(256) : ((255 * v).abs + 1).truncate.modulo(256) }
+      to_rgb = lambda do |v|
+        rgb = v.is_a?(Fixnum) ? v : (255 * v).round
+        return 255 if rgb > 255
+        return 0 if rgb < 0
+        rgb
+      end
       @red = to_rgb.call(red)
       @green = to_rgb.call(green)
       @blue = to_rgb.call(blue)
@@ -45,9 +50,11 @@ module Shoes
     end
 
     def <=>(other)
-      return 0 if @red == other.red && @green == other.green && @blue == other.blue && @alpha == other.alpha
-      return 1 if @red + @green + @blue > other.red + other.green + other.blue
-      return -1 if @red + @green + @blue < other.red + other.green + other.blue
+      raise ArgumentError, "can't compare #{self.class.name} with #{other.class.name}" unless other.class.ancestors.include?(self.class)
+      # If they are the same color, defer to alpha
+      return @alpha <=> other.alpha if @red == other.red && @green == other.green && @blue == other.blue
+      # Else use the sum of color values
+      return @red + @green + @blue <=> other.red + other.green + other.blue
     end
   end
 
