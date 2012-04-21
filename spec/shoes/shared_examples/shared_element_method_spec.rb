@@ -1,3 +1,5 @@
+require 'shoes/color'
+
 shared_examples_for "object with stroke" do
   let(:color) { Shoes::COLORS[:tomato] }
 
