@@ -15,6 +15,8 @@ require 'swt_shoes/layout'
 #require 'swt_shoes/window'
 require 'swt_shoes/flow'
 require 'swt_shoes/button'
+require 'swt_shoes/line'
+require 'swt_shoes/oval'
 require 'swt_shoes/shape'
 require 'swt_shoes/color'
 

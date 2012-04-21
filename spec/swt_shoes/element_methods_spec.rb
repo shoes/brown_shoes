@@ -15,6 +15,12 @@ describe "Basic Element Methods" do
   Shoes.configuration.framework = 'swt_shoes'
 
   let(:gui_container) { double('gui_container') }
+  let(:app) {
+    ElementMethodsShoeLaces.new.tap { |a|
+      a.gui_container = gui_container
+    }
+  }
+
 
   shared_examples_for "paintable" do
     it "registers for painting" do
@@ -26,40 +32,33 @@ describe "Basic Element Methods" do
   end
 
   describe "line" do
-    # The line object
-    subject {
-      s = ElementMethodsShoeLaces.new
-      s.gui_container = gui_container
-      s.line(10, 15, 100, 60)
-    }
-
-    context "same as WhiteShoes" do
-      before :each do
-        gui_container.stub(:add_paint_listener)
-      end
-      it { should be_instance_of(Shoes::Shape) }
-      its(:top) { should eq(15) }
-      its(:left) { should eq(10) }
-      its(:width) { should eq(90) }
-      its(:height) { should eq(45) }
+    specify "creates a Shoes::Line" do
+      gui_container.should_receive(:add_paint_listener)
+      app.line(1, 2, 101, 201).should be_an_instance_of(Shoes::Line)
     end
-
-    context "Swt-specific" do
-    end
-
-    it_behaves_like "paintable"
   end
 
   describe "oval" do
     # The oval object
-    subject {
-      s = ElementMethodsShoeLaces.new
-      s.gui_container = gui_container
-      s.oval(30, 20, 100, 200)
-    }
+    subject { app.oval(30, 20, 100, 200) }
     context "Swt-specific" do
     end
 
     it_behaves_like "paintable"
   end
+
+  describe "shape" do
+    subject {
+      app.shape do
+        move_to 100, 200
+        line_to 300, 400
+      end
+    }
+
+    specify "create a Shoes::Shape" do
+      gui_container.should_receive(:add_paint_listener)
+      subject.should be_an_instance_of(Shoes::Shape)
+    end
+  end
+
 end

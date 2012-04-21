@@ -51,20 +51,10 @@ module SwtShoes
       #  cbox
       #end
       #
-      def line(x1, y1, x2, y2, opts={})
-        args = opts
-        args[:gui] = {
-          container: self.gui_container,
-          element: Swt::Path.new(Shoes.display),
-          paint_callback: lambda do |event, shape|
-            #return if hidden?
-            gc = event.gc
-            gc.set_antialias Swt::SWT::ON
-            gc.set_line_width shape.style[:strokewidth]
-            gc.draw_path(shape.gui_element)
-          end
-        }
-        super(x1, y1, x2, y2, args)
+      def line(*opts)
+        args = opts.last.class == Hash ? opts.pop : {}
+        args[:gui] = {container: self.gui_container}
+        super(*opts, args)
       end
 
       def oval(*opts)
@@ -80,6 +70,13 @@ module SwtShoes
             gc.draw_oval(shape.left, shape.top, shape.width, shape.height)
           end
         }
+        super(*opts, args)
+      end
+
+      # FIXME: same as #line
+      def shape(*opts)
+        args = opts.last.class == Hash ? opts.pop : {}
+        args[:gui] = {container: self.gui_container}
         super(*opts, args)
       end
     end
