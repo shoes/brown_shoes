@@ -24,3 +24,20 @@ shared_examples_for "Swt object with stroke" do
     end
   end
 end
+
+shared_examples_for "Swt object with fill" do
+  describe "paint callback" do
+    let(:event) { double("event") }
+    let(:gc) { double("gc").as_null_object }
+
+    before :each do
+      event.stub(:gc) { gc }
+      gui_container.should_receive(:add_paint_listener)
+    end
+
+    specify "sets fill color" do
+      gc.should_receive(:set_background).with(subject.fill.to_native)
+      subject.gui_paint_callback.call(event)
+    end
+  end
+end
