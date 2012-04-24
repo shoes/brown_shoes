@@ -20,13 +20,9 @@ describe SwtShoes::Shape do
   let(:args_with_element) { {container: gui_container, element: gui_element} }
   let(:args_without_element) { {container: gui_container} }
 
-  before :each do
-    gui_container.should_receive(:add_paint_listener)
-  end
-
   shared_examples_for "Swt::Shape" do
     before :each do
-      gui_element.stub(:move_to)
+      gui_container.should_receive(:add_paint_listener)
     end
 
     it "uses Swt and not White Shoes" do
@@ -43,7 +39,6 @@ describe SwtShoes::Shape do
     subject { ShapeShoeLaces.new gui: args_with_element }
 
     it_behaves_like "Swt::Shape"
-
   end
 
   context "with gui container only" do
@@ -52,10 +47,28 @@ describe SwtShoes::Shape do
     it_behaves_like "Swt::Shape"
 
     describe "gui_init" do
+      before :each do
+        gui_container.should_receive(:add_paint_listener)
+      end
+
       it "should not set current point on gui element" do
         gui_element.should_not_receive(:move_to)
         subject
       end
     end
+  end
+
+  context "basic" do
+    subject {
+      Shoes::Shape.new(gui: args_without_element) {
+        move_to 150, 150
+        line_to 300, 300
+        line_to 0, 300
+        line to 150, 350
+      }
+    }
+
+    it_behaves_like "Swt object with stroke"
+    it_behaves_like "Swt object with fill"
   end
 end

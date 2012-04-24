@@ -52,14 +52,22 @@ describe "Basic Element Methods" do
   end
 
   describe "shape" do
-    it "produces a Shoes::Shape" do
-      shape = ElementMethodsShoeLaces.new.shape do
+    let(:app) { ElementMethodsShoeLaces.new }
+    subject {
+      app.shape {
         move_to 400, 300
         line_to 400, 200
         line_to 100, 100
         line_to 400, 300
-      end
-      shape.should be_an_instance_of(Shoes::Shape)
+      }
+    }
+
+    it { should be_an_instance_of(Shoes::Shape) }
+
+    it "receives style from app" do
+      green = Shoes::COLORS.fetch :green
+      app.style[:stroke] = green
+      subject.stroke.should eq(green)
     end
   end
 
