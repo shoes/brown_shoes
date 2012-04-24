@@ -5,7 +5,7 @@ A JRuby implementation of shoes
 == Getting Started
 
   rvm install jruby
-  gem install bundler --pre
+  gem install bundler
   bundle install
   ./swing-shoooes testing/blank-window.rb
   ./swt-shoooes testing/blank-window.rb
