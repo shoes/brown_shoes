@@ -88,8 +88,8 @@ module Shoes
     end
 
     # Creates a new Shoes::Shape object
-    def shape(style={}, &blk)
-      Shoes::Shape.new(style, blk)
+    def shape(shape_style={}, &blk)
+      Shoes::Shape.new(style.merge(shape_style), blk)
     end
 
     # Creates a new Shoes::Color object
