@@ -17,7 +17,7 @@ module Shoes
         when 3; @style[:left], @style[:top], @style[:radius] = opts
         else @style[:left], @style[:top], @style[:width], @style[:height] = opts
       end
-      @style = defaults.merge(@style)
+      @style = Shoes::Common::Paint::DEFAULTS.merge(defaults).merge(@style)
       @left = @style[:left]
       @top = @style[:top]
       @width = @style[:width]

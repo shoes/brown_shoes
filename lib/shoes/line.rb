@@ -14,7 +14,7 @@ module Shoes
       @width = (x1 - x2).abs
       @height = (y1 - y2).abs
 
-      @style = opts
+      @style = Shoes::Common::Paint::DEFAULTS.merge(opts)
 
       # GUI
       @gui_opts = @style.delete(:gui)

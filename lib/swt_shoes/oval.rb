@@ -13,6 +13,7 @@ module SwtShoes
           gc = event.gc
           gc.set_antialias Swt::SWT::ON
           gc.set_line_width self.style[:strokewidth]
+          gc.set_background(self.style[:fill].to_native)
           gc.draw_oval(@left, @top, @width, @height)
         end
         @gui_container.add_paint_listener(@gui_paint_callback)

@@ -111,6 +111,15 @@ module Shoes
       @style[:strokewidth] = width
     end
 
+    # Sets the current fill color
+    #
+    # Arguments
+    #
+    # color - a Shoes::Color
+    def fill(color)
+      @style[:fill] = color
+    end
+
     # Adds style, or just returns current style if no argument
     #
     # Returns the updated style
