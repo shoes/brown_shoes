@@ -8,7 +8,7 @@ module SwtShoes
       DEFAULT_TITLE = "Shooes!"
 
 
-      include SwtShoes::ElementMethods
+      #include SwtShoes::ElementMethods
       include Log4jruby::LoggerForClass
 
       # default initializer for calls to
