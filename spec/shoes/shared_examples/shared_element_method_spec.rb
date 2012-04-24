@@ -13,6 +13,11 @@ shared_examples_for "object with stroke" do
     subject.stroke.should eq(color)
     subject.style[:stroke].should eq(color)
   end
+
+  # Be sure the subject does *not* have the stroke set previously
+  specify "defaults to black" do
+    subject.stroke.should eq(Shoes::COLORS[:black])
+  end
 end
 
 
