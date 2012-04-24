@@ -83,7 +83,7 @@ describe "Basic Element Methods" do
 
   describe "stroke" do
     let(:app) { ElementMethodsShoeLaces.new }
-    let(:color) { Shoes::COLORS[:tomato] }
+    let(:color) { Shoes::COLORS.fetch :tomato }
 
     specify "returns a color" do
       app.stroke(color).class.should eq(Shoes::Color)
@@ -128,7 +128,7 @@ describe "Basic Element Methods" do
 
   describe "fill" do
     let(:app) { ElementMethodsShoeLaces.new }
-    let(:color) { Shoes::COLORS[:tomato] }
+    let(:color) { Shoes::COLORS.fetch :tomato }
 
     specify "returns a color" do
       app.fill(color).class.should eq(Shoes::Color)
