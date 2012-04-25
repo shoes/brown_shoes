@@ -57,23 +57,14 @@ module SwtShoes
         super(*opts, args)
       end
 
+      # FIXME: same as #line, #shape
       def oval(*opts)
         args = opts.last.class == Hash ? opts.pop : {}
-        args[:gui] = {
-          container: self.gui_container,
-          paint_callback: lambda do |event, shape|
-            #return if hidden?
-            gc = event.gc
-            gc.set_antialias Swt::SWT::ON
-            gc.set_line_width shape.style[:strokewidth]
-            gc.setForeground(shape.style[:stroke].to_native)
-            gc.draw_oval(shape.left, shape.top, shape.width, shape.height)
-          end
-        }
+        args[:gui] = {container: self.gui_container}
         super(*opts, args)
       end
 
-      # FIXME: same as #line
+      # FIXME: same as #line, #oval
       def shape(*opts)
         args = opts.last.class == Hash ? opts.pop : {}
         args[:gui] = {container: self.gui_container}
