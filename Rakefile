@@ -28,6 +28,7 @@ end
 def jruby_rspec(files, args)
   swt = args.delete(:swt)
   rspec_opts = spec_opts_from_args(args)
+  rspec_opts << " #{ENV['RSPEC_OPTS']}"
 
   jruby_run(rspec(files, rspec_opts), swt)
 
