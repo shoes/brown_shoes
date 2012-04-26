@@ -2,14 +2,14 @@ require "spec_helper"
 
 require 'swt_shoes/spec_helper'
 
-describe SwtShoes::Flow do
+describe Shoes::Swt::Flow do
 
   class FlowShoeLaces
-    include SwtShoes::Flow
+    include Shoes::Swt::Flow
     attr_accessor :parent_gui_container, :gui_container, :opts, :width, :height, :margin
   end
 
-  let(:parent_gui_container) { Swt.display }
+  let(:parent_gui_container) { ::Swt.display }
   let(:mock_slot) { mock(:slot) }
   let(:shoelace) {
     shoelace = FlowShoeLaces.new
@@ -19,7 +19,7 @@ describe SwtShoes::Flow do
 
   describe "WhiteShoes requirements" do
 
-    let(:stub_gui_parent) { Swt::Widgets::Shell.new }
+    let(:stub_gui_parent) { ::Swt::Widgets::Shell.new }
     before do
       subject.parent_gui_container = stub_gui_parent
     end
@@ -31,7 +31,7 @@ describe SwtShoes::Flow do
   describe "gui_flow_init" do
 
     before do
-      Swt::Widgets::Composite.should_receive(:new).with(parent_gui_container, anything).and_return mock_slot
+      ::Swt::Widgets::Composite.should_receive(:new).with(parent_gui_container, anything).and_return mock_slot
     end
     it "should create a composite and set accessor" do
       mock_slot.stub(:setLayout)
@@ -40,7 +40,7 @@ describe SwtShoes::Flow do
     end
 
     it "should use a RowLayout" do
-      mock_slot.should_receive(:setLayout).with(an_instance_of(Swt::Layout::RowLayout))
+      mock_slot.should_receive(:setLayout).with(an_instance_of(::Swt::Layout::RowLayout))
       shoelace.gui_flow_init
     end
 
@@ -56,7 +56,7 @@ describe SwtShoes::Flow do
       mock_slot.stub(:setLayout)
       shoelace.margin = 131
       mock_layout = mock(:layout)
-      Swt::Layout::RowLayout.should_receive(:new).and_return mock_layout
+      ::Swt::Layout::RowLayout.should_receive(:new).and_return mock_layout
       mock_layout.should_receive(:marginTop=).with 131
       mock_layout.should_receive(:marginRight=).with 131
       mock_layout.should_receive(:marginBottom=).with 131

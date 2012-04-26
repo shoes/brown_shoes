@@ -3,7 +3,8 @@
 require 'white_shoes/element_methods'
 
 
-module SwtShoes
+module Shoes
+  module Swt
     module ElementMethods
 
       include WhiteShoes::ElementMethods
@@ -54,4 +55,5 @@ module SwtShoes
       #end
       #
     end
+  end
 end

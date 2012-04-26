@@ -1,4 +1,4 @@
 
-require "swt_shoes"
+require "shoes/swt"
 
 require 'swt'

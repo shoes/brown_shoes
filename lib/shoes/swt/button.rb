@@ -1,10 +1,11 @@
-module SwtShoes
+module Shoes
+module Swt
   module Button
 
     def gui_button_init
     # Create a button on the specified _shell_
     #def initialize(container, text = 'Button', opts = {}, &blk)
-      self.gui_element = button = Swt::Widgets::Button.new(self.gui_container, Swt::SWT::PUSH)
+      self.gui_element = button = ::Swt::Widgets::Button.new(self.gui_container, ::Swt::SWT::PUSH)
       button.setText(self.text)
       #@native_widget.setBounds(10, 10, 150, 30)
 
@@ -14,9 +15,10 @@ module SwtShoes
 
   end
 end
+end
 
 module Shoes
   class Button
-    include SwtShoes::Button
+    include Swt::Button
   end
 end

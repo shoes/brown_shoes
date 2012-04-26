@@ -39,7 +39,7 @@ module Shoes
       @frame += 1
     end
     def set_next_timer
-      Swt.display.timer_exec(@ms_per_frame, self) unless @stop
+      ::Swt.display.timer_exec(@ms_per_frame, self) unless @stop
     end
   end
 
