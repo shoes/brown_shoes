@@ -35,7 +35,7 @@ module Shoes
     end
 
     def animate(fps = 10, &blk)
-      anim = Shoes::Animation.new(self, fps, &blk)
+      animation = Shoes::Animation.new(gui_container, fps, &blk)
     end
 
     # similar controls as Shoes::Video (#video)

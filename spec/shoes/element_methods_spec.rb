@@ -157,6 +157,15 @@ describe "Basic Element Methods" do
       app.oval(10, 10, 100, 100)
     end
   end
+
+  describe "animate" do
+    let(:app) { ElementMethodsShoeLaces.new }
+
+    it "creates a Shoes::Animation" do
+      animation = app.animate(24) {}
+      animation.should be_an_instance_of(Shoes::Animation)
+    end
+  end
   #it "Should return 0 for left for button_one" do
   #  @gui.elements['button_one'].left.should be 0
   #end

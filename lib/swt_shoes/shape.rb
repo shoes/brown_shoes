@@ -42,7 +42,7 @@ module SwtShoes
       # @gui_opts should be nil
       if @gui_opts
         @gui_container = @gui_opts[:container]
-        @gui_element = @gui_opts[:element] || Swt::Path.new(Shoes.display)
+        @gui_element = @gui_opts[:element] || Swt::Path.new(Swt.display)
         @gui_paint_callback = lambda do |event|
           gc = event.gc
           gc.set_background self.fill.to_native
