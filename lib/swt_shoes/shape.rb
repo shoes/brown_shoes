@@ -45,6 +45,7 @@ module SwtShoes
         @gui_element = @gui_opts[:element] || Swt::Path.new(Swt.display)
         @gui_paint_callback = lambda do |event|
           gc = event.gc
+          gc.setTransform(@transform) if @transform
           gc.set_background self.fill.to_native
           gc.fill_path(@gui_element)
           gc.set_antialias Swt::SWT::ON
@@ -64,6 +65,13 @@ module SwtShoes
     def move_to(x, y)
       @x, @y = x, y
       @gui_element.move_to(x, y)
+    end
+
+    def move(left, top)
+      super
+      @transform.dispose if @transform
+      @transform = Swt::Transform.new(Swt.Display)
+      @transform.translate(*offset(left, top))
     end
   end
 end

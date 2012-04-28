@@ -12,6 +12,16 @@ module SwtShoes
       button.pack
     end
 
+    def move(left, top)
+      super
+      self.gui_element.setLocation(left, top)
+      # FIXME: this button must be removed from it's slot's gui element, so the slot can
+      # re-flow properly. Currently, if you call layout() on the slot, it moves the button
+      # back into its original position. If you don't call layout(), the other contents
+      # don't reflow.
+      # self.gui_container.layout
+    end
+
   end
 end
 
