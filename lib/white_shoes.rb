@@ -3,6 +3,7 @@
 require 'white_shoes/app'
 require 'white_shoes/flow'
 require 'white_shoes/button'
+require 'white_shoes/shape'
 
 require 'rubygems'
 require 'facets/hash'

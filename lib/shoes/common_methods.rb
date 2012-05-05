@@ -1,4 +1,4 @@
-module WhiteShoes
+module Shoes
   # Methods common to Shoes gui elements.
   #
   # Classes that include this module must expose:
@@ -25,24 +25,24 @@ module WhiteShoes
     # This is the position of the Element from the top
     # of the Slot.  (pixels)
     def top
-      bounds.y
+      @top
     end
 
     # This is the position of the right side of the Element,
     # measured from the *left* side of the Slot.  (pixels)
     def right
-      bounds.x + bounds.width
+      @left + @width
     end
 
     # This is the position of the bottom of the Element,
     # measured from the *top* of the Slot.  (pixels)
     def bottom
-      bounds.y + bounds.height
+      @top + @height
     end
 
     # Gets you the pixel position of the left edge of the element.
     def left
-      bounds.x
+      @left
     end
 
     # The vertical screen size of the element in pixels.  In the case of images,
@@ -54,12 +54,12 @@ module WhiteShoes
     #
     # Also see the width method for an example and some other comments.
     def height
-      bounds.height
+      @height
     end
 
     # This is the width of the Element. (Pixels)
     def width
-      bounds.width
+      @width
     end
 
     # Hides the element, so that it can't be seen. See also #show and #toggle.
