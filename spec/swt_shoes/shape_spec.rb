@@ -44,12 +44,6 @@ describe SwtShoes::Shape do
 
     it_behaves_like "Swt::Shape"
 
-    describe "gui_init" do
-      it "sets current point and registers paint listener" do
-        gui_element.should_receive(:move_to)
-        subject
-      end
-    end
   end
 
   context "with gui container only" do

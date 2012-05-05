@@ -18,11 +18,10 @@ module WhiteShoes
 
     def move_to(x, y)
       @x, @y = x, y
-      update_bounds
     end
 
     def line_to(x, y)
-      move_to(x, y)
+      @components << Shoes::Line.new(@x, @y, x, y, @style)
     end
   end
 end
