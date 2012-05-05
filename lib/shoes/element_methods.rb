@@ -1,10 +1,19 @@
-#require 'animation'
-
-#require 'native'
-#require 'button'
-#require 'flow'
+# FIXME: shoes/animation and shoes/sound require java. They shouldn't.
+#require 'shoes/animation'
+#require 'shoes/sound'
+require 'shoes/button'
+require 'shoes/color'
+require 'shoes/flow'
+require 'shoes/shape'
 
 module Shoes
+  # Methods for creating and manipulating Shoes elements
+  #
+  # Requirements
+  #
+  # Including classes must provide:
+  #
+  # @style - a hash of styles
   module ElementMethods
 
     #def stack(opts={}, &blk)
@@ -61,10 +70,9 @@ module Shoes
     # Draws a line from (x1,y1) to (x2,y2)
     # TODO: Probably don't need to use the full-on Swt::Path for this
     def line(x1, y1, x2, y2, opts={})
-      args = {}
+      args = style.merge(opts)
       args[:left], end_x = x1 < x2 ? [x1, x2] : [x2, x1]
       args[:top], end_y = y1 < y2 ? [y1, y2] : [y2, y1]
-      args[:gui] = opts[:gui]
       path = lambda { line_to(end_x, end_y) }
       Shoes::Shape.new(args, path)
     end
@@ -86,19 +94,42 @@ module Shoes
         when 3; args[:left], args[:top], args[:radius] = opts
         else args[:left], args[:top], args[:width], args[:height] = opts
       end
-      args = defaults.merge(args)
+      args = defaults.merge(style).merge(args)
       args[:width] = args[:radius] * 2 if args[:width].zero?
       args[:height] = args[:width] if args[:height].zero?
       if args[:center]
         args[:left] -= args[:width] / 2
         args[:top] -= args[:height] / 2
       end
+      args[:stroke] ||= @style[:stroke]
+      args[:strokewidth] ||= @style[:strokewidth]
       Shoes::Shape.new args
     end
 
     # Creates a new Shoes::Color object
     def rgb(red, green, blue, alpha = Shoes::Color::OPAQUE)
       Shoes::Color.new(red, green, blue, alpha)
+    end
+
+    # Sets the current stroke color
+    #
+    # Arguments
+    #
+    # color - a Shoes::Color
+    def stroke(color)
+      @style[:stroke] = color
+    end
+
+    # Sets the stroke width, in pixels
+    def strokewidth(width)
+      @style[:strokewidth] = width
+    end
+
+    # Adds style, or just returns current style if no argument
+    #
+    # Returns the updated style
+    def style(new_styles = {})
+      @style.merge! new_styles
     end
   end
 end

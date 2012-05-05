@@ -16,21 +16,21 @@ require 'swt_shoes/layout'
 require 'swt_shoes/flow'
 require 'swt_shoes/button'
 require 'swt_shoes/shape'
+require 'swt_shoes/color'
 
 module SwtShoes
   module Shoes
+    include Log4jruby::LoggerForClass
 
+    def self.app(opts={}, &blk)
+      Shoes::App.new(opts, &blk)
+      logger.debug "Exiting Shoes.app"
+    end
 
-  include Log4jruby::LoggerForClass
-
-  def self.app(opts={}, &blk)
-    Shoes::App.new(opts, &blk)
-    logger.debug "Exiting Shoes.app"
+    def self.display
+      Swt::Widgets::Display.getCurrent
+    end
   end
-
-
-  end
-
 end
 
 
