@@ -16,14 +16,17 @@ module Shoes
     # opts['x'] - the initial x-position for drawing
     # opts['y'] - the initial y-position for drawing
     def initialize(opts={}, blk = nil)
-      @opts = opts.stringify_keys
+      @opts = opts
 
       @blk = blk
 
-      # Initialize current point
-      @left = @x = @opts['x'] || 0
-      @top = @y = @opts['y'] || 0
-      @width = @height = 0
+      @left = @opts[:left] || 0
+      @top = @opts[:top] || 0
+      @width = @opts[:width] || 0
+      @height = @opts[:height] || 0
+
+      # Initialize current point to (left, top)
+      @x, @y = @left, @top
 
       gui_init
 

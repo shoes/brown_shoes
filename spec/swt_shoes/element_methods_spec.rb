@@ -6,12 +6,23 @@ describe "Basic Element Methods" do
   class ElementMethodsShoeLaces
     attr_accessor :gui_container
     include Shoes::ElementMethods
+    include SwtShoes::ElementMethods
   end
 
   Shoes.configuration.framework = 'swt_shoes'
 
+  let(:gui_container) { double('gui_container') }
+
+  shared_examples_for "paintable" do
+    it "registers for painting" do
+      gui_container.should_receive(:add_paint_listener) do |callback|
+        callback.should be_lambda
+      end
+      subject
+    end
+  end
+
   describe "line" do
-    let(:gui_container) { Swt::Widgets::Shell.new }
     # The line object
     subject {
       s = ElementMethodsShoeLaces.new
@@ -20,6 +31,9 @@ describe "Basic Element Methods" do
     }
 
     context "same as WhiteShoes" do
+      before :each do
+        gui_container.stub(:add_paint_listener)
+      end
       it { should be_instance_of(Shoes::Shape) }
       its(:top) { should eq(15) }
       its(:left) { should eq(10) }
@@ -28,7 +42,21 @@ describe "Basic Element Methods" do
     end
 
     context "Swt-specific" do
-
     end
+
+    it_behaves_like "paintable"
+  end
+
+  describe "oval" do
+    # The oval object
+    subject {
+      s = ElementMethodsShoeLaces.new
+      s.gui_container = gui_container
+      s.oval(30, 20, 100, 200)
+    }
+    context "Swt-specific" do
+    end
+
+    it_behaves_like "paintable"
   end
 end

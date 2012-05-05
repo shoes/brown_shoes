@@ -6,8 +6,6 @@ require 'white_shoes/element_methods'
 module SwtShoes
     module ElementMethods
 
-      include WhiteShoes::ElementMethods
-
       #def stack(opts={}, &blk)
       #  tstack = Stack.new(opts)
       #  layout(tstack, &blk)
@@ -53,5 +51,40 @@ module SwtShoes
       #  cbox
       #end
       #
+      def line(x1, y1, x2, y2, opts={})
+        opts[:gui] = {
+          container: self.gui_container,
+          element: Swt::Path.new(Swt::Widgets::Display.get_current),
+          paint_callback: lambda do |event, shape|
+            #return if hidden?
+            gc = event.gc
+            gc.set_antialias Swt::SWT::ON
+            gc.set_line_width 1
+            gc.draw_path(shape.gui_element)
+          end
+        }
+        super(x1, y1, x2, y2, opts)
+      end
+
+      def oval(*opts)
+        args = opts.last.class == Hash ? opts.pop : {}
+        args[:gui] = {
+          container: self.gui_container,
+          paint_callback: lambda do |event, shape|
+            #return if hidden?
+            gc = event.gc
+            gc.set_antialias Swt::SWT::ON
+            gc.set_line_width 1
+            gc.draw_oval(shape.left, shape.top, shape.width, shape.height)
+          end
+        }
+        super(*opts, args)
+      end
     end
+end
+
+module Shoes
+  class App
+    include SwtShoes::ElementMethods
+  end
 end
