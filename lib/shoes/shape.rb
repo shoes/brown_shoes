@@ -1,9 +1,13 @@
 require 'facets/hash'
 require 'shoes/common_methods'
+require 'shoes/common/paint'
+require 'shoes/common/style'
 
 module Shoes
   class Shape
     include Shoes::CommonMethods
+    include Shoes::Common::Paint
+    include Shoes::Common::Style
 
     attr_reader :blk
     attr_reader :x, :y
@@ -16,14 +20,15 @@ module Shoes
     # opts['x'] - the initial x-position for drawing
     # opts['y'] - the initial y-position for drawing
     def initialize(opts={}, blk = nil)
-      @opts = opts
+      @gui_opts = opts.delete(:gui) || {}
+      @style = opts
 
       @blk = blk
 
-      @left = @opts[:left] || 0
-      @top = @opts[:top] || 0
-      @width = @opts[:width] || 0
-      @height = @opts[:height] || 0
+      @left = @style[:left] || 0
+      @top = @style[:top] || 0
+      @width = @style[:width] || 0
+      @height = @style[:height] || 0
 
       # Initialize current point to (left, top)
       @x, @y = @left, @top

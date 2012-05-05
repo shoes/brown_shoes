@@ -36,15 +36,15 @@ module SwtShoes
     #   first is the Swt event that will trigger the callback. The second is
     #   this shape.
     def gui_init
-      @gui_container = @opts[:gui][:container]
-      if @opts[:gui][:element]
-        @gui_element = @opts[:gui][:element]
+      @gui_container = @gui_opts[:container]
+      if @gui_opts[:element]
+        @gui_element = @gui_opts[:element]
         @gui_element.move_to(@x, @y)
       end
-      paint_callback = lambda do |e|
-        @opts[:gui][:paint_callback].call(e, self)
+      @gui_paint_callback = lambda do |e|
+        @gui_opts[:paint_callback].call(e, self)
       end
-      @gui_container.add_paint_listener(paint_callback)
+      @gui_container.add_paint_listener(@gui_paint_callback)
     end
 
     def line_to(x, y)
