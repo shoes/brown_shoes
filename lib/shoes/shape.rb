@@ -2,6 +2,7 @@ require 'facets/hash'
 require 'shoes/common_methods'
 require 'shoes/common/paint'
 require 'shoes/common/style'
+require 'shoes/line'
 
 module Shoes
   class Shape
@@ -14,13 +15,11 @@ module Shoes
 
     # Creates a new Shoes::Shape
     #
+    # This is a composite shape, which has one or more components.
+    #
     # Implementation frameworks should pass in any required arguments
     # through the +opts+ hash.
-    #
-    # opts['x'] - the initial x-position for drawing
-    # opts['y'] - the initial y-position for drawing
-    def initialize(opts={}, blk = nil)
-      @gui_opts = opts.delete(:gui) || {}
+    def initialize(opts = {}, blk = nil)
       @style = opts
 
       @blk = blk
@@ -33,27 +32,38 @@ module Shoes
       # Initialize current point to (left, top)
       @x, @y = @left, @top
 
+      # Component shapes
+      @components = []
+
+      # GUI
+      @gui_opts = @style.delete(:gui)
       gui_init
 
       instance_eval &@blk unless @blk.nil?
     end
 
-    # Update bounds and sizes
-    # TODO: Handle all of the edge cases
-    def update_bounds
-      if @x < @left
-        @width += @left - @x
-        @left = @x
-      elsif @x > right
-        @width += (@x - right)
-      end
+    def left
+      @components.map(&:left).min
+    end
 
-      if @y < @top
-        @height += @top - @y
-        @top = @x
-      elsif @y > bottom
-        @height += @y - bottom
-      end
+    def top
+      @components.map(&:top).min
+    end
+
+    def right
+      @components.map { |c| c.left + c.width }.max
+    end
+
+    def bottom
+      @components.map { |c| c.top + c.height }.max
+    end
+
+    def width
+      (left - right).abs
+    end
+
+    def height
+      (top - bottom).abs
     end
   end
 end

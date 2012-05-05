@@ -4,6 +4,8 @@
 require 'shoes/button'
 require 'shoes/color'
 require 'shoes/flow'
+require 'shoes/line'
+require 'shoes/oval'
 require 'shoes/shape'
 
 module Shoes
@@ -68,13 +70,8 @@ module Shoes
     #
 
     # Draws a line from (x1,y1) to (x2,y2)
-    # TODO: Probably don't need to use the full-on Swt::Path for this
-    def line(x1, y1, x2, y2, opts={})
-      args = style.merge(opts)
-      args[:left], end_x = x1 < x2 ? [x1, x2] : [x2, x1]
-      args[:top], end_y = y1 < y2 ? [y1, y2] : [y2, y1]
-      path = lambda { line_to(end_x, end_y) }
-      Shoes::Shape.new(args, path)
+    def line(x1, y1, x2, y2, opts = {})
+      Shoes::Line.new(x1, y1, x2, y2, style.merge(opts))
     end
 
     # Draws an oval at (left, top) with either
@@ -86,24 +83,13 @@ module Shoes
     #       where styles is a hash with any or all of these keys:
     #         left, top, width, height, radius, center
     def oval(*opts)
-      defaults = {left: 0, top: 0, width: 0, height: 0, radius: 0, center: false}
-      args = opts.last.class == Hash ? opts.pop : {}
-      case opts.length
-        when 0, 1
-        when 2; args[:left], args[:top]  = opts
-        when 3; args[:left], args[:top], args[:radius] = opts
-        else args[:left], args[:top], args[:width], args[:height] = opts
-      end
-      args = defaults.merge(style).merge(args)
-      args[:width] = args[:radius] * 2 if args[:width].zero?
-      args[:height] = args[:width] if args[:height].zero?
-      if args[:center]
-        args[:left] -= args[:width] / 2
-        args[:top] -= args[:height] / 2
-      end
-      args[:stroke] ||= @style[:stroke]
-      args[:strokewidth] ||= @style[:strokewidth]
-      Shoes::Shape.new args
+      oval_style = opts.last.class == Hash ? opts.pop : {}
+      Shoes::Oval.new(*opts, style.merge(oval_style))
+    end
+
+    # Creates a new Shoes::Shape object
+    def shape(style={}, &blk)
+      Shoes::Shape.new(style, blk)
     end
 
     # Creates a new Shoes::Color object

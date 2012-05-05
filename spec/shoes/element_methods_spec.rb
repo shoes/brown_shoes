@@ -38,86 +38,27 @@ describe "Basic Element Methods" do
   end
 
   describe "line" do
-    shared_examples_for "basic line" do
-      it { should be_instance_of(Shoes::Shape) }
-      its(:top) { should eq(15) }
-      its(:left) { should eq(10) }
-      its(:width) { should eq(90) }
-      its(:height) { should eq(45) }
-    end
-
-    context "created left-to-right, top-to-bottom" do
-      subject { ElementMethodsShoeLaces.new.line(10, 15, 100, 60) }
-      it_behaves_like "basic line"
-    end
-
-    context "specified right-to-left, top-to-bottom" do
-      subject { ElementMethodsShoeLaces.new.line(100, 15, 10, 60) }
-      it_behaves_like "basic line"
-    end
-
-    context "specified right-to-left, bottom-to-top" do
-      subject { ElementMethodsShoeLaces.new.line(100, 60, 10, 15) }
-      it_behaves_like "basic line"
-    end
-
-    context "specified left-to-right, bottom-to-top" do
-      subject { ElementMethodsShoeLaces.new.line(10, 60, 100, 15) }
-      it_behaves_like "basic line"
+    it "makes a Shoes::Line" do
+      Shoes::Line.should_receive(:new)
+      ElementMethodsShoeLaces.new.line(10, 15, 20, 30)
     end
   end
 
   describe "oval" do
-    context "(eccentric)" do
-      subject { ElementMethodsShoeLaces.new.oval(20, 30, 100, 200) }
-
-      it { should be_instance_of(Shoes::Shape) }
-      its (:top) { should eq(30) }
-      its (:left) { should eq(20) }
-      its (:width) { should eq(100) }
-      its (:height) { should eq(200) }
+    it "produces a Shoes::Oval" do
+      ElementMethodsShoeLaces.new.oval(10, 50, 250).should be_an_instance_of(Shoes::Oval)
     end
+  end
 
-    shared_examples_for "circle" do
-      it { should be_instance_of(Shoes::Shape) }
-      its (:top) { should eq(30) }
-      its (:left) { should eq(20) }
-      its (:width) { should eq(100) }
-      its (:height) { should eq(100) }
-    end
-
-    context "(circle) created with explicit arguments:" do
-      context "width and height" do
-        subject { ElementMethodsShoeLaces.new.oval(20, 30, 100, 100) }
-        it_behaves_like "circle"
+  describe "shape" do
+    it "produces a Shoes::Shape" do
+      shape = ElementMethodsShoeLaces.new.shape do
+        move_to 400, 300
+        line_to 400, 200
+        line_to 100, 100
+        line_to 400, 300
       end
-
-      context "radius" do
-        subject { ElementMethodsShoeLaces.new.oval(20, 30, 50) }
-        it_behaves_like "circle"
-      end
-    end
-
-    context "(circle) created with style hash:" do
-      context "left, top, height, width" do
-        subject { ElementMethodsShoeLaces.new.oval(left: 20, top: 30, width: 100, height: 100) }
-        it_behaves_like "circle"
-      end
-
-      context "left, top, height, width, center: false" do
-        subject { ElementMethodsShoeLaces.new.oval(left: 20, top: 30, width: 100, height: 100, center: false) }
-        it_behaves_like "circle"
-      end
-
-      context "left, top, radius" do
-        subject { ElementMethodsShoeLaces.new.oval(left: 20, top: 30, radius: 50) }
-        it_behaves_like "circle"
-      end
-
-      context "left, top, width, height, center: true" do
-        subject { ElementMethodsShoeLaces.new.oval(left: 70, top: 80, width: 100, height: 100, center: true) }
-        it_behaves_like "circle"
-      end
+      shape.should be_an_instance_of(Shoes::Shape)
     end
   end
 
@@ -156,7 +97,7 @@ describe "Basic Element Methods" do
 
     specify "applies to subsequently created objects" do
       app.stroke color
-      Shoes::Shape.should_receive(:new).with do |*args|
+      Shoes::Oval.should_receive(:new).with do |*args|
         style = args.pop
         style[:stroke].should eq(color)
       end
@@ -177,7 +118,7 @@ describe "Basic Element Methods" do
 
     specify "applies to subsequently created objects" do
       app.strokewidth 6
-      Shoes::Shape.should_receive(:new).with do |*args|
+      Shoes::Oval.should_receive(:new).with do |*args|
         style = args.pop
         style[:strokewidth].should eq(6)
       end

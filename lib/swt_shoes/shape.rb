@@ -30,33 +30,37 @@ module SwtShoes
     #     end
     #   }
     #
-    #   This hook method is only interested in the `:gui` values.
+    #   This hook method is only interested in the `:gui` values, which will
+    #   be passed in the @gui_opts variable.
     #
     #   Note in particular the `:paint_callback`. It has 2 parameters. The
     #   first is the Swt event that will trigger the callback. The second is
     #   this shape.
     def gui_init
-      @gui_container = @gui_opts[:container]
-      if @gui_opts[:element]
-        @gui_element = @gui_opts[:element]
-        @gui_element.move_to(@x, @y)
+      # @gui_opts must be provided if this shape is responsible for
+      # drawing itself. If this shape is part of another shape, then
+      # @gui_opts should be nil
+      if @gui_opts
+        @gui_container = @gui_opts[:container]
+        @gui_element = @gui_opts[:element] || Swt::Path.new(Shoes.display)
+        @gui_paint_callback = lambda do |event|
+          gc = event.gc
+          gc.set_antialias Swt::SWT::ON
+          gc.set_line_width self.style[:strokewidth]
+          gc.draw_path(@gui_element)
+        end
+        @gui_container.add_paint_listener(@gui_paint_callback)
       end
-      @gui_paint_callback = lambda do |e|
-        @gui_opts[:paint_callback].call(e, self)
-      end
-      @gui_container.add_paint_listener(@gui_paint_callback)
     end
 
     def line_to(x, y)
-      @x, @y = x, y
+      @components << ::Shoes::Line.new(@x, @y, x, y, @style)
       @gui_element.line_to(x, y)
-      update_bounds
     end
 
     def move_to(x, y)
       @x, @y = x, y
       @gui_element.move_to(x, y)
-      update_bounds
     end
   end
 end
