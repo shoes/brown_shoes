@@ -9,6 +9,9 @@ require 'log4jruby/logger_for_class'
 
 module Shoes
   attr_accessor :logger
+  def self.logger
+    @logger
+  end
 
   @logger = Log4jruby::Logger.get('test', :tracing => true, :level => :debug)
   @logger.debug("Shoooes!")
@@ -28,4 +31,8 @@ require 'shoes/flow'
 #require 'shoes/edit_box'
 #require 'shoes/check'
 #require 'shoes/image'
+require 'shoes/line'
+require 'shoes/oval'
 require 'shoes/sound'
+require 'shoes/shape'
+require 'shoes/configuration'

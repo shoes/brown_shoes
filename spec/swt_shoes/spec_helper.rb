@@ -1,4 +1,2 @@
-
 require "swt_shoes"
-
-require 'swt'
+Shoes.configuration.framework = 'swt_shoes'

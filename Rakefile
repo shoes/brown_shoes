@@ -529,10 +529,23 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
 end
 
-RSpec::Core::RakeTask.new(:rcov) do |spec|
-  #spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
+# run rspec in separate Jruby JVM
+# options :
+#   :swt - true/false(default)  When True, will run Jruby with SWT-required -X-startOnFirstThread
+#   :rspec - string  Options to pass to Rspec commandline.
+#
+def jruby_rspec(files, args)
+  swt = args.delete(:swt)
+  rspec_opts = spec_opts_from_args(args)
+  rspec_opts << " #{ENV['RSPEC_OPTS']}"
+
+  jruby_run(rspec(files, rspec_opts), swt)
+
+  #out = jruby_run(rspec(files, rspec_opts), swt)
+  #ok, result = out.split("\n").last
+  #examples_failures = result.match /\d* examples, \d* failures/
+
+  #return { :examples => examples_failures[1], :failures => examples_failures[2] }
 end
 
 #task :spec => :check_dependencies
