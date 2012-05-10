@@ -60,5 +60,4 @@ describe "Basic Element Methods" do
       subject.should be_an_instance_of(Shoes::Shape)
     end
   end
-
 end

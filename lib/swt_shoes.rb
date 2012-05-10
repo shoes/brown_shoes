@@ -10,6 +10,7 @@ def window(*a, &b)
 end
 
 require 'swt_shoes/element_methods'
+require 'swt_shoes/animation'
 require 'swt_shoes/app'
 require 'swt_shoes/layout'
 #require 'swt_shoes/window'
@@ -27,10 +28,6 @@ module SwtShoes
     def self.app(opts={}, &blk)
       Shoes::App.new(opts, &blk)
       logger.debug "Exiting Shoes.app"
-    end
-
-    def self.display
-      Swt::Widgets::Display.getCurrent
     end
   end
 end

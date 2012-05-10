@@ -28,4 +28,5 @@ describe SwtShoes::Line do
   end
 
   it_behaves_like "paintable"
+  it_behaves_like "Swt object with stroke"
 end

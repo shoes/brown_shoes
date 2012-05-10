@@ -1,7 +1,7 @@
 module SwtShoes
   module Color
     def to_native
-      Swt::Graphics::Color.new(Shoes.display, @red, @green, @blue)
+      Swt::Graphics::Color.new(Swt.display, @red, @green, @blue)
     end
   end
 end
