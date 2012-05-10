@@ -20,6 +20,7 @@ module Shoes
     # Implementation frameworks should pass in any required arguments
     # through the +opts+ hash.
     def initialize(opts = {}, blk = nil)
+      self.extend(SwtShoes::Shape)
       @style = Shoes::Common::Paint::DEFAULTS.merge(opts)
 
       @blk = blk

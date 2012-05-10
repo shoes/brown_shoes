@@ -3,5 +3,7 @@ shared_examples_for "movable object" do
     subject.move(300, 200)
     subject.left.should eq(300)
     subject.top.should eq(200)
+    raise
   end
 end
+

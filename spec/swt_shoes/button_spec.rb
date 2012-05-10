@@ -7,7 +7,7 @@ require 'swt_shoes/spec_helper'
 describe SwtShoes::Button do
 
   #it_should_behave_like "A Common Element"
-
+  it_behaves_like "movable object with disposable gui element"
 
   class ButtonShoeLaces
     include SwtShoes::Button

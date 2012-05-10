@@ -43,15 +43,19 @@ module SwtShoes
       if @gui_opts
         @gui_container = @gui_opts[:container]
         @gui_element = @gui_opts[:element] || Swt::Path.new(Swt.display)
+        @transform = Swt::Transform.new(Swt.display)
+        @transform.translate(-130, -100)
         @gui_paint_callback = lambda do |event|
           gc = event.gc
-          gc.setTransform(@transform) if @transform
+          gc.setTransform(@transform)
+          puts "Transform: #{@transform.inspect}"
           gc.set_background self.fill.to_native
           gc.fill_path(@gui_element)
           gc.set_antialias Swt::SWT::ON
           gc.set_foreground self.stroke.to_native
           gc.set_line_width self.style[:strokewidth]
           gc.draw_path(@gui_element)
+          @transform.dispose
         end
         @gui_container.add_paint_listener(@gui_paint_callback)
       end
@@ -68,16 +72,22 @@ module SwtShoes
     end
 
     def move(left, top)
+      print "Moving from (#{self.left}, #{self.top}) to "
+      offset_left, offset_top = offset(left, top)
       super
+      print "(#{self.left}, #{self.top}) "
+      puts "offset: (#{offset_left}, #{offset_top})"
+      puts "transform: #{@transform}"
       @transform.dispose if @transform
-      @transform = Swt::Transform.new(Swt.Display)
-      @transform.translate(*offset(left, top))
+      @transform = Swt::Transform.new(Swt.display)
+      @transform.translate(offset_left, offset_top)
+      puts "transform: #{@transform.inspect}"
     end
   end
 end
 
-module Shoes
-  class Shape
-    include SwtShoes::Shape
-  end
-end
+#module Shoes
+  #class Shape
+    #include SwtShoes::Shape
+  #end
+#end

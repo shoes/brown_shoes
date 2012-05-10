@@ -24,17 +24,23 @@ module Shoes
     #end
 
     def flow(opts = {}, &blk)
+      opts.merge! :app => @app
       swt_flow = Shoes::Flow.new(self, self.gui_container, opts, blk)
+      puts "flow gui_container: #{swt_flow.gui_container.inspect}"
+      puts "flow gui_container.layout: #{swt_flow.gui_container.layout.inspect}"
+      puts "app(?) gui_container: #{self.gui_container.inspect}"
     end
 
 
     def button(text, opts={}, &blk)
+      opts.merge! :app => @app
       button = Shoes::Button.new(self.gui_container, text, opts, blk)
       #@elements[button.to_s] = button
       #button
     end
 
     def animate(fps = 10, &blk)
+      opts.merge! :app => @app
       animation = Shoes::Animation.new(gui_container, fps, &blk)
     end
 

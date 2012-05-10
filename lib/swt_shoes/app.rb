@@ -20,6 +20,7 @@ module SwtShoes
       container.setText(self.title)
 
       container.addListener(Swt::SWT::Close, main_window_on_close)
+      puts "app gui_container (in app): #{self.gui_container.inspect}"
     end
 
 

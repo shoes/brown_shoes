@@ -12,6 +12,7 @@ module Shoes
       self.gui_container = gui_container
       self.click_event_lambda = click_event_lambda
       self.text = text
+      @app = opts[:app]
       @height = opts[:height]
       @width = opts[:width]
 
