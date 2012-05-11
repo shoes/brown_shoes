@@ -1,6 +1,7 @@
 module SwtShoes
   module Line
     attr_reader :gui_container, :gui_element
+    attr_reader :gui_paint_callback
 
     def gui_init
       # @gui_opts must be provided if this shape is responsible for
@@ -11,6 +12,7 @@ module SwtShoes
         default_paint_callback = lambda do |event|
           gc = event.gc
           gc.set_antialias Swt::SWT::ON
+          gc.set_foreground self.stroke.to_native
           gc.set_line_width self.style[:strokewidth]
           gc.draw_line(@left, @top, right, bottom)
         end
