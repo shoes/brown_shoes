@@ -34,11 +34,16 @@ module Shoes
       
       self.opts = opts
 
+      @app = self
       @style = DEFAULT_STYLE
+      puts "in app constructor, @app = #{@app}"
+      puts "in app constructor, @style = #{@style}"
 
       gui_init
 
       instance_eval &blk if blk
+      puts "in app constructor, @app = #{@app}"
+      puts "in app constructor, @style = #{@style}"
 
       gui_open
 

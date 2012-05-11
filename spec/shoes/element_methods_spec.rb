@@ -32,6 +32,7 @@ describe "Basic Element Methods" do
       subject.gui_container = "gui_container"
       blk = lambda {}
       opts = mock(:hash)
+      opts.should_receive(:merge!).and_return(opts)
       Shoes::Flow.should_receive(:new).
         with(subject, "gui_container", opts, blk)
       subject.flow opts, &blk
