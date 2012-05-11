@@ -161,9 +161,28 @@ describe "Basic Element Methods" do
   describe "animate" do
     let(:app) { ElementMethodsShoeLaces.new }
 
-    it "creates a Shoes::Animation" do
-      animation = app.animate(24) {}
-      animation.should be_an_instance_of(Shoes::Animation)
+    shared_examples_for "basic" do
+      it { should be_an_instance_of(Shoes::Animation) }
+    end
+
+    shared_examples_for "10fps" do
+      its(:framerate) { should eq(10) }
+    end
+
+    context "defaults" do
+      subject { app.animate {} }
+      it_behaves_like "basic"
+      its(:framerate) { should eq(24) }
+    end
+
+    context "with numeric argument" do
+      subject { app.animate(10) {} }
+      it_behaves_like "basic"
+      it_behaves_like "10fps"
+    end
+
+    context "with hash argument" do
+
     end
   end
   #it "Should return 0 for left for button_one" do

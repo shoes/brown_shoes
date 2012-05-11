@@ -10,9 +10,9 @@ module SwtShoes
         @blk.call(@current_frame)
         @current_frame += 1
         @gui_container.redraw
-        Swt.display.timer_exec 1000 / @fps, task
+        Swt.display.timer_exec 1000 / @framerate, task
       end
-      Swt.display.timer_exec 1000 / @fps, task
+      Swt.display.timer_exec 1000 / @framerate, task
     end
 
     def run

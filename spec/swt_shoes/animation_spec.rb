@@ -4,8 +4,11 @@ require 'swt_shoes/spec_helper'
 describe SwtShoes::Animation do
   class AnimationShoeLaces
     include SwtShoes::Animation
-    def initialize(fps = 24, &blk)
-      @fps = fps
+    # This is painfully duplicated from Shoes::Animation
+    def initialize(*opts, &blk)
+      @style = opts.last.class == Hash ? opts.pop : {}
+      @style[:framerate] = opts.first if opts.length == 1
+      @framerate = @style[:framerate] || 24
       @blk = blk
       @current_frame = 0
       gui_init

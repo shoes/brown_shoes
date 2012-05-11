@@ -6,7 +6,7 @@ module WhiteShoes
         loop do
           @blk.call(@current_frame)
           @current_frame += 1
-          sleep(1/@fps)
+          sleep(1/@framerate)
         end
       end.start
     end
