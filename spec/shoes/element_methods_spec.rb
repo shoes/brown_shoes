@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require "shoes/color"
 require 'shoes/element_methods'
 require 'shoes/configuration'
 
@@ -31,6 +32,7 @@ describe "Basic Element Methods" do
       subject.gui_container = "gui_container"
       blk = lambda {}
       opts = mock(:hash)
+      opts.should_receive(:merge!).and_return(opts)
       Shoes::Flow.should_receive(:new).
         with(subject, "gui_container", opts, blk)
       subject.flow opts, &blk
@@ -51,14 +53,22 @@ describe "Basic Element Methods" do
   end
 
   describe "shape" do
-    it "produces a Shoes::Shape" do
-      shape = ElementMethodsShoeLaces.new.shape do
+    let(:app) { ElementMethodsShoeLaces.new }
+    subject {
+      app.shape {
         move_to 400, 300
         line_to 400, 200
         line_to 100, 100
         line_to 400, 300
-      end
-      shape.should be_an_instance_of(Shoes::Shape)
+      }
+    }
+
+    it { should be_an_instance_of(Shoes::Shape) }
+
+    it "receives style from app" do
+      green = Shoes::COLORS.fetch :green
+      app.style[:stroke] = green
+      subject.stroke.should eq(green)
     end
   end
 
@@ -81,9 +91,8 @@ describe "Basic Element Methods" do
   end
 
   describe "stroke" do
-    require "shoes/color" # Need the colors!
     let(:app) { ElementMethodsShoeLaces.new }
-    let(:color) { Shoes::COLORS[:tomato] }
+    let(:color) { Shoes::COLORS.fetch :tomato }
 
     specify "returns a color" do
       app.stroke(color).class.should eq(Shoes::Color)
@@ -126,6 +135,57 @@ describe "Basic Element Methods" do
     end
   end
 
+  describe "fill" do
+    let(:app) { ElementMethodsShoeLaces.new }
+    let(:color) { Shoes::COLORS.fetch :tomato }
+
+    specify "returns a color" do
+      app.fill(color).class.should eq(Shoes::Color)
+    end
+
+    # This works differently on the app than on a normal element
+    specify "sets on receiver" do
+      app.fill color
+      app.style[:fill].should eq(color)
+    end
+
+    specify "applies to subsequently created objects" do
+      app.fill color
+      Shoes::Oval.should_receive(:new).with do |*args|
+        style = args.pop
+        style[:fill].should eq(color)
+      end
+      app.oval(10, 10, 100, 100)
+    end
+  end
+
+  describe "animate" do
+    let(:app) { ElementMethodsShoeLaces.new }
+
+    shared_examples_for "basic" do
+      it { should be_an_instance_of(Shoes::Animation) }
+    end
+
+    shared_examples_for "10fps" do
+      its(:framerate) { should eq(10) }
+    end
+
+    context "defaults" do
+      subject { app.animate {} }
+      it_behaves_like "basic"
+      its(:framerate) { should eq(24) }
+    end
+
+    context "with numeric argument" do
+      subject { app.animate(10) {} }
+      it_behaves_like "basic"
+      it_behaves_like "10fps"
+    end
+
+    context "with hash argument" do
+
+    end
+  end
   #it "Should return 0 for left for button_one" do
   #  @gui.elements['button_one'].left.should be 0
   #end

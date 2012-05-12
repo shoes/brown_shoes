@@ -3,6 +3,12 @@ require 'shoes/line'
 require 'white_shoes'
 
 describe Shoes::Line do
+  describe "basic" do
+    subject { Shoes::Line.new(20, 23, 300, 430) }
+    it_behaves_like "object with stroke"
+    it_behaves_like "movable object"
+  end
+
   shared_examples_for "basic line" do
     it { should be_kind_of(Shoes::Line) }
     its(:top) { should eq(15) }

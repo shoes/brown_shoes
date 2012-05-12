@@ -1,6 +1,7 @@
 module SwtShoes
   module Oval
     attr_reader :gui_container, :gui_element
+    attr_reader :gui_paint_callback
 
     # FIXME: This (mostly) duplicates SwtShoes::Line#gui_init
     def gui_init
@@ -12,6 +13,9 @@ module SwtShoes
         @gui_paint_callback = lambda do |event|
           gc = event.gc
           gc.set_antialias Swt::SWT::ON
+          gc.set_background self.fill.to_native
+          gc.fill_oval(@left, @top, @width, @height)
+          gc.set_foreground self.stroke.to_native
           gc.set_line_width self.style[:strokewidth]
           gc.draw_oval(@left, @top, @width, @height)
         end
