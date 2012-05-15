@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'white_shoes/shape'
-require 'support/shared_examples_for_common_elements_spec'
 
 
 describe WhiteShoes::Shape do

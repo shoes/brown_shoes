@@ -1,3 +1,0 @@
-
-require 'white_shoes'
-

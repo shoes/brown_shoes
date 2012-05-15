@@ -1,5 +1,5 @@
 require "spec_helper"
-require "white_shoes/spec_helper"
+require "white_shoes"
 
 describe WhiteShoes::App do
 
