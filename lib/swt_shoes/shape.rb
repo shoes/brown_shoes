@@ -8,8 +8,8 @@ module SwtShoes
   # @opts       - options
   #
   module Shape
-    attr_reader :gui_container
-    attr_reader :gui_element
+    attr_reader :gui_container, :gui_element
+    attr_reader :gui_paint_callback
 
     # The initialization hook for SwtShoes.
     #
@@ -45,7 +45,10 @@ module SwtShoes
         @gui_element = @gui_opts[:element] || Swt::Path.new(Shoes.display)
         @gui_paint_callback = lambda do |event|
           gc = event.gc
+          gc.set_background self.fill.to_native
+          gc.fill_path(@gui_element)
           gc.set_antialias Swt::SWT::ON
+          gc.set_foreground self.stroke.to_native
           gc.set_line_width self.style[:strokewidth]
           gc.draw_path(@gui_element)
         end

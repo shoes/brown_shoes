@@ -88,8 +88,8 @@ module Shoes
     end
 
     # Creates a new Shoes::Shape object
-    def shape(style={}, &blk)
-      Shoes::Shape.new(style, blk)
+    def shape(shape_style={}, &blk)
+      Shoes::Shape.new(style.merge(shape_style), blk)
     end
 
     # Creates a new Shoes::Color object
@@ -109,6 +109,15 @@ module Shoes
     # Sets the stroke width, in pixels
     def strokewidth(width)
       @style[:strokewidth] = width
+    end
+
+    # Sets the current fill color
+    #
+    # Arguments
+    #
+    # color - a Shoes::Color
+    def fill(color)
+      @style[:fill] = color
     end
 
     # Adds style, or just returns current style if no argument
